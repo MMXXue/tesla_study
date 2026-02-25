@@ -1,79 +1,105 @@
 import asyncio
-from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
-from fastapi.responses import HTMLResponse
-
-
+from fastapi import FastAPI, Query
+from fastapi.responses import StreamingResponse, HTMLResponse
+import uvicorn
 
 app = FastAPI()
 
-# Key 是用户 ID，Value 是这个人的聊天历史列表
+# --- 全局状态管理 ---
+# Key: user_id, Value: list of prompts
 user_sessions = {}
 
-# 限制普通用户并发数为 1
+# 限制普通用户的全局并发数为 1
 sem = asyncio.Semaphore(1)
 
+# --- 核心业务逻辑 ---
 
-# 修改第 2 步的代码
 async def run_inference(user_id: str, history: list):
     """
-    history 就是 user_sessions[user_id] 传进来的小本子
+    模拟 AI 推理引擎。
+    history 包含了当前用户最近的对话记录。
     """
     yield f"--- [AI 引擎] 正在调取用户 {user_id} 的记忆 ---\n"
     
-    # 模拟展示记忆
+    # 1. 回顾历史（不含本次输入）
     if len(history) > 1:
-        yield f"📜 我记得你之前说过：'{history[-2]}' \n" # 取倒数第二次对话（上一个问题）
+        yield "📜 历史记录回顾：\n"
+        for i, msg in enumerate(history[:-1], 1):
+            await asyncio.sleep(0.1)  # 稍微快一点的仪式感
+            yield f"  {i}. {msg}\n"
+        yield "--------------------\n"
+    else:
+        yield "🆕 首次对话，暂无历史记忆。\n"
     
-    yield f"✨ 针对你的新问题，我正在计算：\n"
-    
-    words = ["正在", "处理", "你的", "请求...", "完成！"]
+    # 2. 处理当前问题
+    current_prompt = history[-1]
+    yield f"✨ 针对新问题 '{current_prompt}'，正在思考：\n"
+
+    words = ["正在", "检索", "知识库", "进行", "逻辑推理...", "生成回答", "完成！"]
     for word in words:
-        await asyncio.sleep(0.5) 
+        await asyncio.sleep(0.4) 
         yield f"{word} "
     yield f"\n--- [AI 引擎] 任务完成 ---\n"
 
-# 3. 核心调度器（救护车逻辑/中转站）
-# 这里的 current_sem 是外部传进来的插座
-async def smart_scheduler(user_id: str, prompt: str, current_sem: asyncio.Semaphore):
-    # 1. 记忆登记
+async def smart_scheduler(user_id: str, prompt: str):
+    """
+    核心调度器：处理排队逻辑与记忆登记
+    """
+    is_admin = (user_id == "admin")
+
+    # 1. 身份预告
+    if is_admin:
+        yield "🌟 [调度系统] 识别到管理员 VIP 身份，跳过排队...\n"
+    else:
+        yield f"⏳ [调度系统] 用户 {user_id} 权限普通，正在进入队列...\n"
+
+    # 2. 流量控制逻辑
+    # 使用 contextlib 的思想简化逻辑
+    if is_admin:
+        # VIP 直接进入推理
+        async for chunk in _process_request(user_id, prompt):
+            yield chunk
+    else:
+        # 普通用户竞争信号量
+        async with sem:
+            yield f"✅ [调度系统] 用户 {user_id} 已获取 GPU 资源，开始执行...\n"
+            async for chunk in _process_request(user_id, prompt):
+                yield chunk
+
+async def _process_request(user_id: str, prompt: str):
+    """
+    内部方法：负责真正的记忆更新和调用引擎
+    """
+    # 初始化 session
     if user_id not in user_sessions:
         user_sessions[user_id] = []
     
-    # 2. 把这次的问题存进“本子”
+    # 登记记忆
     user_sessions[user_id].append(prompt)
-    # --- 添加这一行监控日志 ---
-    print(f"DEBUG: 当前用户 {user_id} 的记忆本内容: {user_sessions[user_id]}")
-    # -----------------------
+    
+    # 限制长度（保留最近 5 条）
+    if len(user_sessions[user_id]) > 5:
+        user_sessions[user_id] = user_sessions[user_id][-5:]
+    
+    # 调用推理引擎
+    async for chunk in run_inference(user_id, user_sessions[user_id]):
+        yield chunk
 
-    """
-    负责判断：你是谁？你该排队还是直接走？
-    """
-    if user_id == "admin":
-        yield "🌟 [调度系统] 识别到管理员身份，启动 VIP 绿色通道，跳过排队！\n"
-        # 直接接力数据流，不加 async with sem
-        async for chunk in run_inference(user_id, user_sessions[user_id]):
-            yield chunk
-    else:
-        yield f"⏳ [调度系统] 用户 {user_id} 权限普通，正在进入 GPU 排队队列...\n"
-        # 必须占住位置（刷卡进门）
-        async with current_sem:
-            yield f"✅ [调度系统] 用户 {user_id} 已获取资源，开始推理...\n"
-            # 在闸机内部接力数据流，确保占位
-            async for chunk in run_inference(user_id, user_sessions[user_id]):
-                yield chunk
+# --- API 路由 ---
 
-# 4. API 路由入口
 @app.get("/stream")
 async def stream_api(user_id: str = "guest", prompt: str = "Hello"):
-    """
-    FastAPI 路由，只负责把全局 sem 传给调度器
-    """
-    # 这里把全局定义的 sem 像电池一样插进调度器里
+    # 传入调度器生成流
     return StreamingResponse(
-        smart_scheduler(user_id, prompt, sem), 
-        media_type="text/plain"
+        smart_scheduler(user_id, prompt), 
+        media_type="text/event-stream"
     )
+
+@app.get("/clear")
+async def clear_memory(user_id: str):
+    if user_id in user_sessions:
+        user_sessions[user_id] = []
+    return {"status": "success", "message": f"用户 {user_id} 的记忆已清空"}
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
@@ -81,55 +107,85 @@ async def index():
     <!DOCTYPE html>
     <html>
         <head>
+            <meta charset="UTF-8">
             <title>Tesla AI 推理中心</title>
             <style>
-                body { background: #1a1a1a; color: #fff; font-family: sans-serif; padding: 40px; }
-                #output { background: #000; padding: 20px; border-radius: 8px; height: 300px; overflow-y: auto; white-space: pre-wrap; border: 1px solid #333; }
-                input { padding: 10px; border-radius: 4px; border: none; width: 200px; }
-                button { padding: 10px 20px; background: #cc0000; color: white; border: none; border-radius: 4px; cursor: pointer; }
-                .status { margin-bottom: 10px; color: #888; }
+                body { background: #0f0f0f; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; }
+                .container { max-width: 800px; margin: 0 auto; }
+                #output { background: #000; padding: 20px; border-radius: 8px; height: 400px; overflow-y: auto; 
+                          white-space: pre-wrap; border: 1px solid #333; font-family: monospace; line-height: 1.6; }
+                .controls { margin-bottom: 20px; display: flex; gap: 10px; }
+                input { padding: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff; flex: 1; }
+                #userId { flex: 0 0 100px; }
+                button { padding: 10px 20px; background: #cc0000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+                button:disabled { background: #555; cursor: not-allowed; }
+                button:hover:not(:disabled) { background: #ff0000; }
+                .status-bar { font-size: 0.8em; color: #888; margin-bottom: 5px; }
             </style>
         </head>
         <body>
-            <h1>🚀 Tesla 边缘计算节点</h1>
-            <div class="status">请输入 User ID (输入 admin 开启 VIP 通道)</div>
-            <input type="text" id="userId" value="guest">
-            <input type="text" id="userPrompt" placeholder="请输入你的问题">
-            <button onclick="startInference()">开始推理</button>
-            <hr style="border: 0.5px solid #333; margin: 20px 0;">
-            <div id="output">等待指令...</div>
+            <div class="container">
+                <h1>🚀 Tesla 边缘计算节点</h1>
+                <div class="status-bar">提示: 使用 'admin' 作为 User ID 可享受 VIP 通道</div>
+                <div class="controls">
+                    <input type="text" id="userId" placeholder="User ID" value="guest">
+                    <input type="text" id="userPrompt" placeholder="输入您的问题 (回车发送)">
+                    <button id="sendBtn" onclick="startInference()">开始推理</button>
+                    <button onclick="clearMemory()" style="background: #444;">清空记忆</button>
+                </div>
+                <div id="output">等待指令...</div>
+            </div>
 
             <script>
+                // 支持回车发送
+                document.getElementById('userPrompt').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') startInference();
+                });
+
                 async function startInference() {
                     const userId = document.getElementById('userId').value;
+                    const promptInput = document.getElementById('userPrompt');
+                    const sendBtn = document.getElementById('sendBtn');
                     const outputDiv = document.getElementById('output');
-                    // 改成这样（用 += 追加，而不是 = 覆盖）
-                    outputDiv.innerText += `\n\n--- 新对话 ---\n`;
-                    // ✅ 修正后的代码（必须与 HTML 中的 id="userPrompt" 对应）
-                    const prompt = document.getElementById('userPrompt').value;
+                    
+                    const prompt = promptInput.value.trim();
+                    if (!prompt) return;
 
-                    // 1. 发起流式请求
-                    const response = await fetch(`/stream?user_id=${userId}&prompt=${encodeURIComponent(prompt)}`);
-                    const reader = response.body.getReader();
-                    const decoder = new TextDecoder();
+                    // 状态锁定
+                    promptInput.value = "";
+                    sendBtn.disabled = true;
+                    outputDiv.innerHTML += `<div style="color: #00ff00; margin-top: 10px;">> ${prompt}</div>`;
 
-                    // 2. 循环读取流数据
-                    while (true) {
-                        const { value, done } = await reader.read();
-                        if (done) break;
-                        
-                        // 将读取到的二进制块转为文字并显示
-                        const chunk = decoder.decode(value);
-                        outputDiv.innerText += chunk;
-                        outputDiv.scrollTop = outputDiv.scrollHeight; // 自动滚动到底部
+                    try {
+                        const response = await fetch(`/stream?user_id=${userId}&prompt=${encodeURIComponent(prompt)}`);
+                        const reader = response.body.getReader();
+                        const decoder = new TextDecoder();
+
+                        while (true) {
+                            const { value, done } = await reader.read();
+                            if (done) break;
+                            const chunk = decoder.decode(value);
+                            outputDiv.innerText += chunk;
+                            outputDiv.scrollTop = outputDiv.scrollHeight; 
+                        }
+                    } catch (e) {
+                        outputDiv.innerText += `\n❌ 发生错误: ${e.message}`;
+                    } finally {
+                        sendBtn.disabled = false;
+                        promptInput.focus();
                     }
+                }
+
+                async function clearMemory() {
+                    const userId = document.getElementById('userId').value;
+                    const response = await fetch(`/clear?user_id=${userId}`);
+                    const result = await response.json();
+                    document.getElementById('output').innerText = `✨ 系统提示: ${result.message}\\n` + "-".repeat(20) + "\\n";
                 }
             </script>
         </body>
     </html>
     """
 
-
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
