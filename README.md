@@ -5,11 +5,12 @@
 - [x] Day 1: FastAPI 环境搭建
 - [x] Day 2: 异步初探与并发控制
 - [x] Day 3: 流式响应与特权调度逻辑 (超车实验 🚀)
-- [ ] Day 4: 对话记忆与 Session 管理 (Pending...)
+- [x] Day 4: 对话记忆与 Session 管理 (Memory Chip 🧠)
+
+
 
 ## 💡 核心感悟
 代码是手，逻辑是心，AI 是大脑。
-
 
 
 ---
