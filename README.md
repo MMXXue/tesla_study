@@ -6,6 +6,7 @@
 - [x] Day 2: 异步初探与并发控制
 - [x] Day 3: 流式响应与特权调度逻辑 (超车实验 🚀)
 - [x] Day 4: 对话记忆与 Session 管理 (Memory Chip 🧠)
+- [x] Day 5: 数据库持久化与角色管理 (Persistence Layer 🗄️)
 
 
 
