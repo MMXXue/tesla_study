@@ -141,7 +141,7 @@ async def index():
                 document.getElementById('userPrompt').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') startInference();
                 });
-
+                
                 async function startInference() {
                     const userId = document.getElementById('userId').value;
                     const promptInput = document.getElementById('userPrompt');

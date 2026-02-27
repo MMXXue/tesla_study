@@ -78,7 +78,7 @@ async def index():
                 async function startInference() {
                     const userId = document.getElementById('userId').value;
                     const outputDiv = document.getElementById('output');
-                    outputDiv.innerText = "正在连接服务器...\\n";
+                    outputDiv.innerText = "正在连接服务器...\n";
 
                     // 1. 发起流式请求
                     const response = await fetch(`/stream?user_id=${userId}`);
