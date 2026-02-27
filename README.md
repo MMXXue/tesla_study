@@ -1,10 +1,5 @@
 # ⚡ Fullstack AI Engineer 365 Days Challenge
 
-> **“代码是手，逻辑是心，AI 是大脑。”**
-> 本项目记录了我通往资深全栈 AI 工程师的 365 天进阶历程，涵盖从底层的工程筑基到顶层的系统架构设计。
-
----
-
 ## 📅 当前进度 (Current Progress)
 
 - [x] **Day 1**: FastAPI 环境搭建与工程化配置
@@ -12,6 +7,14 @@
 - [x] **Day 3**: 流式响应 (Streaming) 与特权调度逻辑 (超车实验 🚀)
 - [x] **Day 4**: 对话记忆与 Session 状态管理 (Memory Chip 🧠)
 - [x] **Day 5**: 数据库持久化层与多角色管理系统 (Persistence Layer 🗄️)
+- [x] **Day 6**: 全栈链路闭环与赛博 UI 交互系统 (Cyber Interface ⚡)
+     - **环境排障**：攻克 Live Server 监听 DB 导致的循环刷新“幽灵 Bug”。
+- [ ] **Day 7**: Tailwind 深度实战与历史记忆回显 (Data Revival 🔄)
+
+
+
+> **“代码是手，逻辑是心，AI 是大脑。”**
+> 本项目记录了我通往资深全栈 AI 工程师的 365 天进阶历程，涵盖从底层的工程筑基到顶层的系统架构设计。
 
 ---
 
@@ -97,6 +100,30 @@
 
 **示例：**
 `feat: 增加用户 Session 持久化存储逻辑`
+
+---
+
+## 项目结构变更说明
+
+为避免数据库刷写导致前端出错，已将项目做简单的动静分离：
+
+- `backend/`：后端 FastAPI 示例与服务脚本（含 db 服务，数据库文件移到 `db/`）
+- `static/`：所有静态前端页面（HTML/JS/CSS）放在此目录，便于做动静分离
+- `db/`：数据库文件存放目录（例如 `my_ai_db.db`）
+
+快速启动示例：
+
+```bash
+source venv/bin/activate
+uvicorn backend.day5_db_server:app --reload
+```
+
+本地预览静态页面：
+
+```bash
+python -m http.server 5500 --directory static
+# 打开 http://127.0.0.1:5500/index.html
+```
 
 ---
 
