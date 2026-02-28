@@ -17,7 +17,7 @@
     <main id="chat-window" class="flex-1 overflow-y-auto p-4 space-y-6">
         <div class="flex justify-start">
             <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg max-w-[80%]">
-                你好，雪媛。系统已就绪。
+                你好，Sheldon。系统已就绪。
             </div>
         </div>
     </main>
@@ -41,66 +41,66 @@
         let isGenerating = false;
 
         // 【核心功能】发送与获取流式数据
-        async function handleSend() {
-            const text = userInput.value.trim();
-            if (!text || isGenerating) return;
+        async function handleSend() { // 处理发送操作并以流式方式接收 AI 响应
+            const text = userInput.value.trim(); // 读取输入框内容并去除首尾空白(处理用户输入时的标准动作)
+            if (!text || isGenerating) return; // 如果为空或正在生成中则直接返回，防止重复请求
 
-            isGenerating = true;
-            userInput.value = '';
+            isGenerating = true; // 标记正在生成，防止并发发送
+            userInput.value = ''; // 清空输入框的内容，给用户即时反馈
             
             // 展示用户说的话
-            appendBubble('user', text);
+            appendBubble('user', text); // 在聊天窗口追加一个用户气泡并显示用户输入
 
             // 创建 AI 的空气泡准备接字
-            const aiBubble = appendBubble('assistant', '...');
+            const aiBubble = appendBubble('assistant', '...'); // 在聊天窗口追加一个 AI 气泡，初始显示省略号
 
             try {
                 // Fetch 请求后端
-                const url = `http://127.0.0.1:8000/chat_stream?user_id=xueyuan&prompt=${encodeURIComponent(text)}`;
-                const response = await fetch(url);
+                const url = `http://127.0.0.1:8000/chat_stream?user_id=xueyuan&prompt=${encodeURIComponent(text)}`; // 构造后端流式接口的 URL，并对用户输入做编码
+                const response = await fetch(url); // 发起网络请求，等待响应对象
                 
-                if (!response.ok) throw new Error('连接失败');
+                if (!response.ok) throw new Error('连接失败'); // 如果 HTTP 状态不是 2xx，则抛出错误
 
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                aiBubble.innerText = ''; // 清空提示词，开始填入正式内容
+                const reader = response.body.getReader(); // 从响应体获取流的读取器（用于逐块读取数据,数据只要有更新就会被读取）
+                const decoder = new TextDecoder(); // TextDecoder就是创建文本解码器，把二进制块解码为字符串(变成我们看得懂的样子)
+                aiBubble.innerText = ''; // 清空 AI 气泡中的占位符，准备写入真正的返回内容
 
-                while (true) {
-                    const { value, done } = await reader.read();
-                    if (done) break;
+                while (true) { // 持续循环读取流直到结束
+                    const { value, done } = await reader.read(); // 读取下一块数据，得到二进制值和结束标志(value得到的是一串二进制数据，done是一个布尔值，表示流是否已经结束)
+                    if (done) break; // 若已结束，则跳出循环
                     
-                    const chunk = decoder.decode(value);
+                    const chunk = decoder.decode(value); // 将本次读取到的二进制数据解码成字符串
                     // 核心逻辑：不停地把新拿到的字拼接到气泡里
-                    if (!chunk.includes('✅')) {
-                        aiBubble.innerText += chunk;
-                        chatWindow.scrollTop = chatWindow.scrollHeight; // 自动滚到底
+                    if (!chunk.includes('✅')) { // 如果 chunk 中不包含结束标记（'✅'），则拼接显示
+                        aiBubble.innerText += chunk; // 将新内容追加到 AI 气泡文本中，实现流式渲染效果
+                        chatWindow.scrollTop = chatWindow.scrollHeight; // 自动滚动到最底部，保证最新消息可见
                     }
                 }
             } catch (err) {
-                aiBubble.innerText = "错误: " + err.message;
+                aiBubble.innerText = "错误: " + err.message; // 捕获异常并在 AI 气泡中显示错误信息
             } finally {
-                isGenerating = false;
+                isGenerating = false; // 无论成功或失败，都重置生成状态，允许下一次发送
             }
         }
 
         // 【辅助功能】在屏幕上生成气泡
-        function appendBubble(role, content) {
-            const wrapper = document.createElement('div');
-            wrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+        function appendBubble(role, content) { // 创建并插入一个聊天气泡，返回该气泡元素以便后续更新
+            const wrapper = document.createElement('div'); // 创建外层容器元素用于包裹气泡
+            wrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`; // 根据角色设置容器的对齐：用户靠右，AI靠左
             
-            const bubble = document.createElement('div');
+            const bubble = document.createElement('div'); // 创建实际显示文本的气泡元素
             // Tailwind 这里的类名控制了气泡的样子
-            bubble.className = `p-3 rounded-lg max-w-[85%] ${
-                role === 'user' 
-                ? 'bg-cyan-600 text-white' // 用户颜色
-                : 'bg-slate-800 text-gray-100 border border-slate-700' // AI 颜色
+            bubble.className = `p-3 rounded-lg max-w-[85%] ${ // 设置内边距、圆角和最大宽度
+                role === 'user'  // 判断角色以选择配色
+                ? 'bg-cyan-600 text-white' // 用户颜色：青色背景 + 白色文字
+                : 'bg-slate-800 text-gray-100 border border-slate-700' // AI 颜色：深色背景 + 浅色文字 + 边框
             }`;
-            bubble.innerText = content;
+            bubble.innerText = content; // 将传入的文本内容设置到气泡中以便显示
 
-            wrapper.appendChild(bubble);
-            chatWindow.appendChild(wrapper);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-            return bubble;
+            wrapper.appendChild(bubble); // 把气泡元素放入外层容器
+            chatWindow.appendChild(wrapper); // 把外层容器追加到聊天窗口，实际显示在页面上
+            chatWindow.scrollTop = chatWindow.scrollHeight; // 滚动聊天窗口到最底部，保证新气泡可见
+            return bubble; // 返回气泡元素，调用方可以继续修改或更新文本
         }
 
         sendBtn.onclick = handleSend;
