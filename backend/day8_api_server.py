@@ -44,7 +44,7 @@ app.add_middleware(
 )
 
 # DeepSeek 配置
-DEEPSEEK_API_KEY = "sk-4b7ea6739818492a83e1f0e5cd3a8fa8"  # 替换为你的 DeepSeek API Key
+DEEPSEEK_API_KEY = "sk-"  # 替换为 DeepSeek API Key
 API_URL = "https://api.deepseek.com/chat/completions"
 
 # --- 核心业务逻辑 ---
