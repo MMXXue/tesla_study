@@ -6,7 +6,7 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 # --- 基础配置 ---
-DATABASE_URL = "sqlite:///./db/day6_tesla_ai_db.db"  # 本地 SQLite 数据库路径（迁移到 db/ 目录）
+DATABASE_URL = "sqlite:///./db/day7_tesla_ai_db.db"  # 本地 SQLite 数据库路径（迁移到 db/ 目录）
 database = Database(DATABASE_URL)         # 初始化 databases 库（支持异步 SQL 操纵）
 sem = asyncio.Semaphore(1)                # 创建信号量，限制并发数（此处设为 1，确保非 admin 用户排队处理，防止数据库锁死）
 
