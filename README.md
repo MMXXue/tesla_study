@@ -8,10 +8,13 @@
 - [x] **Day 4**: 对话记忆与 Session 状态管理 (Memory Chip 🧠)
 - [x] **Day 5**: 数据库持久化层与多角色管理系统 (Persistence Layer 🗄️)
 - [x] **Day 6**: 全栈链路闭环与赛博 UI 交互系统 (Cyber Interface ⚡)
-     - **环境排障**：攻克 Live Server 监听 DB 导致的循环刷新“幽灵 Bug”。
-- [x] Day 7: UI 深度进化与 Agent 角色注入 (State & Soul 🧠)
-    - **技术突破：**：实现流式 Markdown 实时解析与历史记忆自动回显。
-    - **Agent 化：**：后端注入 System Prompt，完成从“聊天框”到“诊断助手 TS-79”的角色转变。
+     - **环境排障**: 攻克 Live Server 监听 DB 导致的循环刷新“幽灵 Bug”。
+- [x] **Day 7**: UI 深度进化与 Agent 角色注入 (State & Soul 🧠)
+    - **技术突破**: 实现流式 Markdown 实时解析与历史记忆自动回显。
+    - **Agent 化**: 后端注入 System Prompt，完成从“聊天框”到“诊断助手 TS-79”的角色转变。
+- [x] **Day 8**: 神经元觉醒 - 接入 DeepSeek 大脑 (Intelligence Activation 🧠)
+    - **大脑接入**: 彻底舍弃 Mock 模拟数据，通过 httpx 实现异步流式调用 DeepSeek API。
+    - **全栈合体**: 打通“前端 -> 后端 -> 数据库 -> 大模型”的完整 AI 应用闭环。
 
 
 
