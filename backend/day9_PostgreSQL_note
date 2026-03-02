@@ -1,0 +1,11 @@
+-- 强制启用索引测试
+SET enable_seqscan = off;
+
+-- 创建模糊匹配索引
+CREATE INDEX idx_chat_content_gin ON chat_history USING GIN (content gin_trgm_ops);
+
+-- 更新数据库统计信息
+ANALYZE chat_history;
+
+-- 查看索引大小
+SELECT pg_size_pretty(pg_relation_size('idx_chat_content_gin'));
