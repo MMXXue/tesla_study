@@ -15,9 +15,14 @@
 - [x] **Day 8**: 神经元觉醒 - 接入 DeepSeek 大脑 (Intelligence Activation 🧠)
     - **大脑接入**: 彻底舍弃 Mock 模拟数据，通过 httpx 实现异步流式调用 DeepSeek API。
     - **全栈合体**: 打通“前端 -> 后端 -> 数据库 -> 大模型”的完整 AI 应用闭环。
+- [x] **Day 9**: PostgreSQL 百万级数据查询优化 (Database Optimization)
+    - **GIN索引**: 将关键字检索响应时间从 200ms+ 压缩至毫秒级。
+    - **大规模数据生成**: 使用 generate_series 与随机函数灌录 1,000,000 条 模拟 Tesla 运行日志。
 
+---
 
 # 🚀 Tesla AI Engineer 365-Day Challenge: Phase 1
+
 ---
 
 ### 🟢 Month 1: 后端核心与高性能架构 (Deep Dive)
@@ -25,7 +30,7 @@
 #### Week 2: 数据库深度优化与数据一致性
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 09** | 索引深度优化 | 实现百万级对话记录的 `EXPLAIN ANALYZE` 性能瓶颈分析 | PostgreSQL, GIN Index |
+| ~~Day 09~~ | ~~索引深度优化~~ | ~~实现百万级对话记录的 EXPLAIN ANALYZE 性能瓶颈分析~~ | ~~PostgreSQL, GIN Index~~ |
 | **Day 10** | 并发锁机制 | 使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性 | Row-level Locking | 增加一个分布式状态机的概念 | 尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑 |
 | **Day 11** | 连接池调优 | 针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置 | Connection Pooling |
 | **Day 12** | 数据库迁移 | 使用 Alembic 模拟生产环境的 Schema 不停机变更 | Alembic, Migrations |
