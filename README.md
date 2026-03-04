@@ -33,7 +33,7 @@
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
 | ~~Day 09~~ | ~~索引深度优化~~ | ~~实现百万级对话记录的 EXPLAIN ANALYZE 性能瓶颈分析~~ | ~~PostgreSQL, GIN Index~~ |
-| ~~**Day 10**~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ | ~~增加一个分布式状态机的概念~~ | ~~尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑~~ |
+| ~~Day 10~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ | ~~增加一个分布式状态机的概念~~ | ~~尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑~~ |
 | **Day 11** | 连接池调优 | 针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置 | Connection Pooling |
 | **Day 12** | 数据库迁移 | 使用 Alembic 模拟生产环境的 Schema 不停机变更 | Alembic, Migrations |
 | **Day 13** | 热点缓存策略 | 接入 Redis 缓存 System Prompt 与 Session | Redis (Cache Aside) |
