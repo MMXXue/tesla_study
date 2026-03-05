@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 # --- 配置连接 ---
 # 注意：如果你在 Docker 里运行，localhost 对应映射出的端口
-DB_URL = "postgresql://postgres:tesla_power@localhost:5432/postgres"
+DB_URL = "postgresql://postgres:password@localhost:5432/postgres"
 
 # Redis 客户端：用于写入任务心跳，给监控端判断 Worker 是否存活
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
