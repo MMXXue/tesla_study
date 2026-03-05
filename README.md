@@ -22,6 +22,9 @@
     - **并发锁机制**: 采用 `FOR UPDATE SKIP LOCKED` 行级锁，攻克多 Worker 抢单冲突，确保任务处理的原子性。
     - **分布式状态机**: 利用 Redis 实现“心跳续期 (Heartbeat)”机制，实时监测 Agent 运行状态。
     - **超时补偿逻辑**: 编写 Monitor 巡检脚本，实现僵尸任务自动发现与 PENDING 状态回滚，构建“杀不死”的分布式任务调度闭环。
+- [x] **Day 11**: 高并发 I/O 调优与数据库连接池极限压测 (I/O Tuning & Stress Test 🚀)
+    - **连接池架构**: 深入调优 SQLAlchemy 异步连接池，通过 `pool_size` 与 `max_overflow` 参数构建高吞吐后端。
+    - **性能调优闭环**: 手写并发压测脚本，复现高并发下的“连接饥饿”与 `TimeoutError`，并将系统响应从 5s 优化至 1s。
 
 ---
 
@@ -32,9 +35,9 @@
 #### Week 2: 数据库深度优化与数据一致性
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| ~~Day 09~~ | ~~索引深度优化~~ | ~~实现百万级对话记录的 EXPLAIN ANALYZE 性能瓶颈分析~~ | ~~PostgreSQL, GIN Index~~ |
-| ~~Day 10~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ | ~~增加一个分布式状态机的概念~~ | ~~尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑~~ |
-| **Day 11** | 连接池调优 | 针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置 | Connection Pooling |
+| ~~**Day 09**~~ | ~~索引深度优化~~ | ~~实现百万级对话记录的 EXPLAIN ANALYZE 性能瓶颈分析~~ | ~~PostgreSQL, GIN Index~~ |
+| ~~**Day 10**~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ | ~~增加一个分布式状态机的概念~~ | ~~尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑~~ |
+| ~~**Day 11**~~ | ~~连接池调优~~ | ~~针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置~~ | ~~Connection Pooling~~ |
 | **Day 12** | 数据库迁移 | 使用 Alembic 模拟生产环境的 Schema 不停机变更 | Alembic, Migrations |
 | **Day 13** | 热点缓存策略 | 接入 Redis 缓存 System Prompt 与 Session | Redis (Cache Aside) |
 | **Day 14** | 分布式锁实战 | 实现 Redlock 算法，确保多实例环境下 AI 任务分配唯一性 | Distributed Lock |
