@@ -25,6 +25,10 @@
 - [x] **Day 11**: 高并发 I/O 调优与数据库连接池极限压测 (I/O Tuning & Stress Test 🚀)
     - **连接池架构**: 深入调优 SQLAlchemy 异步连接池，通过 `pool_size` 与 `max_overflow` 参数构建高吞吐后端。
     - **性能调优闭环**: 手写并发压测脚本，复现高并发下的“连接饥饿”与 `TimeoutError`，并将系统响应从 5s 优化至 1s。
+- [x] **Day 12**: 数据库迁移与版本控制 (Schema Migrations), revision --autogenerate 机制, upgrade（进化）与 downgrade（回退）函数
+    - **Alembic 落地**: 成功搭建 Alembic 迁移工作流，实现从 SQLAlchemy 模型到 PostgreSQL 物理表的自动化映射。
+    - **生产安全审计**: 意识到自动化脚本的风险，建立起“生成脚本 -> 人工 Review -> 执行升级”的工业级数据库变更标准。
+
 
 ---
 
@@ -38,7 +42,7 @@
 | ~~**Day 09**~~ | ~~索引深度优化~~ | ~~实现百万级对话记录的 EXPLAIN ANALYZE 性能瓶颈分析~~ | ~~PostgreSQL, GIN Index~~ |
 | ~~**Day 10**~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ | ~~增加一个分布式状态机的概念~~ | ~~尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑~~ |
 | ~~**Day 11**~~ | ~~连接池调优~~ | ~~针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置~~ | ~~Connection Pooling~~ |
-| **Day 12** | 数据库迁移 | 使用 Alembic 模拟生产环境的 Schema 不停机变更 | Alembic, Migrations |
+| ~~**Day 12**~~ | ~~数据库迁移~~ | ~~使用 Alembic 模拟生产环境的 Schema 不停机变更~~ | ~~Alembic, Migrations~~ |
 | **Day 13** | 热点缓存策略 | 接入 Redis 缓存 System Prompt 与 Session | Redis (Cache Aside) |
 | **Day 14** | 分布式锁实战 | 实现 Redlock 算法，确保多实例环境下 AI 任务分配唯一性 | Distributed Lock |
 | **Day 15** | **Week 2 Project** | **构建“高并发诊断日志引擎”**：TPS > 500，查询延迟 < 50ms | System Design |
