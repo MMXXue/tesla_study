@@ -28,7 +28,18 @@
 - [x] **Day 12**: 数据库迁移与版本控制 (Schema Migrations), revision --autogenerate 机制, upgrade（进化）与 downgrade（回退）函数
     - **Alembic 落地**: 成功搭建 Alembic 迁移工作流，实现从 SQLAlchemy 模型到 PostgreSQL 物理表的自动化映射。
     - **生产安全审计**: 意识到自动化脚本的风险，建立起“生成脚本 -> 人工 Review -> 执行升级”的工业级数据库变更标准。
+- [x] **Day 13**: 高性能热点缓存策略与对话上下文控制 (Caching & Memory Management 🧠)
+    - **旁路缓存 (Cache Aside Pattern)**：
+        - **多级存储调度**：构建 `PromptService` 实现“Redis 优先，DB 兜底”逻辑，通过**回填机制 (Backfill)** 将 System Prompt 查询从磁盘 I/O 提升至内存级响应，性能优化达 **50倍+**。
+        - **缓存穿透防护**：针对非预设 Role 实现“空值/默认值”缓存，成功拦截无效请求直接穿透至 PostgreSQL，保障存储层在高频访问下的稳定性。
+    - **状态管理与滑动窗口 (State Management)**：
+        - **Session 隔离机制**：设计 `session:{user_id}:{role}` 命名空间，实现分布式环境下的多租户对话隔离，确保 AI 上下文在并发场景下的绝对准确。
+        - **内存容量约束**：利用 Redis 的 `RPUSH` 与 `LTRIM` 原子操作，构建**固定长度 (Fixed-size) 的滑动窗口记忆**，从架构层面根治长对话导致的 Token 费用爆炸及模型窗口溢出。
+    - **分布式调试与数据选型**：
+        - **全链路追踪**：通过 `redis-cli` 深度调试，攻克从“缓存未命中 (nil)”到“热点命中 (Cache Hit)”的逻辑断层。
+        - **多数据结构应用**：深刻理解 **String** (用于静态 Prompt) 与 **List** (用于动态 Session) 的选型边界，确保 Redis 内存利用率的最优化。
 
+        
 
 ---
 
@@ -43,7 +54,7 @@
 | ~~**Day 10**~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ | ~~增加一个分布式状态机的概念~~ | ~~尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑~~ |
 | ~~**Day 11**~~ | ~~连接池调优~~ | ~~针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置~~ | ~~Connection Pooling~~ |
 | ~~**Day 12**~~ | ~~数据库迁移~~ | ~~使用 Alembic 模拟生产环境的 Schema 不停机变更~~ | ~~Alembic, Migrations~~ |
-| **Day 13** | 热点缓存策略 | 接入 Redis 缓存 System Prompt 与 Session | Redis (Cache Aside) |
+| ~~**Day 13**~~ | ~~热点缓存策略~~ | ~~接入 Redis 缓存 System Prompt 与 Session~~ | ~~Redis (Cache Aside)~~ |
 | **Day 14** | 分布式锁实战 | 实现 Redlock 算法，确保多实例环境下 AI 任务分配唯一性 | Distributed Lock |
 | **Day 15** | **Week 2 Project** | **构建“高并发诊断日志引擎”**：TPS > 500，查询延迟 < 50ms | System Design |
 
