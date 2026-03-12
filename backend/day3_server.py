@@ -41,7 +41,7 @@ async def smart_scheduler(user_id: str, current_sem: asyncio.Semaphore):
 
 # 4. API 路由入口
 @app.get("/stream")
-async def stream_api(user_id: str = "guest"):
+async def stream_api(user_id: str = "user"):
     """
     FastAPI 路由，只负责把全局 sem 传给调度器
     """
