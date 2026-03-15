@@ -1,0 +1,57 @@
+import redis
+import uuid
+import time
+
+# 连接你 Docker 里的 Redis
+client = redis.Redis(host='localhost', port=6379, db=0)
+
+# 上锁🔒
+def try_lock(lock_name, expire_time=10):
+    # 生成一个随机 ID，作为这把锁的“钥匙”
+    unique_id = str(uuid.uuid4())
+    
+    # NX=True: 只有不存在时才设置 (实现互斥)
+    # EX=expire_time: 过期时间 (实现防死锁)
+    is_success = client.set(lock_name, unique_id, nx=True, ex=expire_time)
+    
+    if is_success:
+        return unique_id
+    return None
+
+# 解锁🔓  使用了Lua脚本(确保不被插队),Redis 会把它当成一个不可分割的动作,在 Lua 脚本运行期间，Redis 不会执行其他任何指令
+def safe_unlock(lock_name, unique_id):
+    # 这段脚本的意思是：如果 get 出来的 value 等于我传进去的 unique_id，才执行 del
+    # -- KEYS[1] 代表锁的名字
+    # -- ARGV[1] 代表你手里拿的那个唯一 UUID (钥匙)
+    lua_script = """
+    if redis.call("get", KEYS[1]) == ARGV[1] then
+        return redis.call("del", KEYS[1])
+    else
+        return 0
+    end
+    """
+    result = client.eval(lua_script, 1, lock_name, unique_id)
+    return result == 1
+
+
+def perform_ai_task(worker_name):
+    lock_key = "tesla_fms_training_lock"
+    
+    print(f"[{worker_name}] 尝试获取锁...")
+    token = try_lock(lock_key, expire_time=5)
+    
+    if token:
+        try:
+            print(f"[{worker_name}] 成功拿到锁！开始更新神经网络模型...")
+            time.sleep(7) # 模拟 AI 任务耗时
+        finally:
+            if safe_unlock(lock_key, token):
+                print(f"[{worker_name}] 任务完成，安全释放锁。")
+            else:
+                print(f"[{worker_name}] 锁已过期或被意外修改，释放失败。")
+    else:
+        print(f"[{worker_name}] 抢锁失败，其他 Worker 正在处理中，跳过。")
+
+# 模拟运行
+perform_ai_task("Worker_A")
+perform_ai_task("Worker_B")
