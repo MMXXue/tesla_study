@@ -38,6 +38,9 @@
     - **分布式调试与数据选型**：
         - **全链路追踪**：通过 `redis-cli` 深度调试，攻克从“缓存未命中 (nil)”到“热点命中 (Cache Hit)”的逻辑断层。
         - **多数据结构应用**：深刻理解 **String** (用于静态 Prompt) 与 **List** (用于动态 Session) 的选型边界，确保 Redis 内存利用率的最优化。
+- [x] **Day 14**: 分布式锁实战 (Distributed Lock 🔒)
+    - **Redis锁**: 实现简单的redis锁
+    - **Redlock 算法**：实现多实例环境下的 AI 任务分配唯一性，防止重复消费。
 
         
 
@@ -55,7 +58,7 @@
 | ~~**Day 11**~~ | ~~连接池调优~~ | ~~针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置~~ | ~~Connection Pooling~~ |
 | ~~**Day 12**~~ | ~~数据库迁移~~ | ~~使用 Alembic 模拟生产环境的 Schema 不停机变更~~ | ~~Alembic, Migrations~~ |
 | ~~**Day 13**~~ | ~~热点缓存策略~~ | ~~接入 Redis 缓存 System Prompt 与 Session~~ | ~~Redis (Cache Aside)~~ |
-| **Day 14** | 分布式锁实战 | 实现 Redlock 算法，确保多实例环境下 AI 任务分配唯一性 | Distributed Lock |
+| ~~**Day 14**~~ | ~~分布式锁实战~~ | ~~实现 Redlock 算法，确保多实例环境下 AI 任务分配唯一性~~ | ~~Distributed Lock~~ |
 | **Day 15** | **Week 2 Project** | **构建“高并发诊断日志引擎”**：TPS > 500，查询延迟 < 50ms | System Design |
 
 #### Week 3: 工业协议转换与系统韧性
