@@ -41,6 +41,12 @@
 - [x] **Day 14**: 分布式锁实战 (Distributed Lock 🔒)
     - **Redis锁**: 实现简单的redis锁
     - **Redlock 算法**：实现多实例环境下的 AI 任务分配唯一性，防止重复消费。
+- [x] **Day 15**: Week 2 Project — 高并发诊断日志引擎 (System Design 🚀)
+    - **压测根因定位**：复现 `0/1000` 失败，定位核心问题为压测侧连接池等待超时 (`PoolTimeout`)，而非服务逻辑崩溃。
+    - **外部并发治理**：通过并发扫频找到系统甜点区间（本机约 `10~20`），避免并发过高进入拥塞区导致 TPS 下降、延迟飙升。
+    - **内部热路径优化**：API 保持“只入队不重处理”，采用原始请求体直入 Redis，减少 JSON 解析与请求路径开销。
+    - **消费链路优化**：Worker 使用批量 `LPOP` + 批量落库，降低 Redis 往返次数与数据库写入开销。
+    - **指标化方法论**：建立 `perf_benchmark.py` 与 `PERF_CHECKLIST.md`，以成功率、TPS、avg、p95、p99 作为统一评估标准。
 
         
 
@@ -59,7 +65,7 @@
 | ~~**Day 12**~~ | ~~数据库迁移~~ | ~~使用 Alembic 模拟生产环境的 Schema 不停机变更~~ | ~~Alembic, Migrations~~ |
 | ~~**Day 13**~~ | ~~热点缓存策略~~ | ~~接入 Redis 缓存 System Prompt 与 Session~~ | ~~Redis (Cache Aside)~~ |
 | ~~**Day 14**~~ | ~~分布式锁实战~~ | ~~实现 Redlock 算法，确保多实例环境下 AI 任务分配唯一性~~ | ~~Distributed Lock~~ |
-| **Day 15** | **Week 2 Project** | **构建“高并发诊断日志引擎”**：TPS > 500，查询延迟 < 50ms | System Design |
+| ~~**Day 15**~~ | ~~**Week 2 Project**~~ | ~~**构建“高并发诊断日志引擎”**：TPS > 500，查询延迟 < 50ms~~ | ~~System Design~~ |
 
 #### Week 3: 工业协议转换与系统韧性
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
