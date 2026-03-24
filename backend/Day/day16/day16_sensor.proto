@@ -1,0 +1,27 @@
+
+// .proto(protobuf) 就像是一个密码本,双方都持有一个,然后我们只需要传输一些简单的数字,双方就可以理解对方发送的信息.
+// 同时,在发送信息之前,我们还会根据 .proto 进行提前检查,一旦错误将不会发出,不会白白浪费一次传输.
+// 同时,他是一个高效的双向传送带,我可以一边源源不断地扔传感器数据给你，你同时也可以源源不断地扔控制指令给我，互不干扰，速度极快.
+
+syntax = "proto3"; // 告诉编译器我们用的是第 3 代语法
+
+package factory; // 就像 Python 的 import 路径
+
+// 1. 定义“服务”：相当于定义一个可以被远程调用的“类”
+service SmartFactory {
+  // 定义一个“方法”：上报数据。 
+  // 接收 SensorRequest，返回 SensorResponse
+  rpc ReportData (SensorRequest) returns (SensorResponse) {}
+}
+
+// 2. 定义“数据包”：上报的内容长什么样
+message SensorRequest {
+  string device_id = 1;  // 设备唯一编号
+  float temperature = 2; // 温度
+  int32 humidity = 3;    // 湿度
+}
+
+// 3. 定义“回执”：服务器收到后回什么
+message SensorResponse {
+  string status = 1;     // 比如返回 "OK"
+}
