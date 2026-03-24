@@ -47,8 +47,11 @@
     - **内部热路径优化**：API 保持“只入队不重处理”，采用原始请求体直入 Redis，减少 JSON 解析与请求路径开销。
     - **消费链路优化**：Worker 使用批量 `LPOP` + 批量落库，降低 Redis 往返次数与数据库写入开销。
     - **指标化方法论**：建立 `perf_benchmark.py` 与 `PERF_CHECKLIST.md`，以成功率、TPS、avg、p95、p99 作为统一评估标准。
-
-        
+- [x] **Day 16**: gRPC 定义与工业协议实战 (Protocol Design 📡)
+    - **Proto 定义**：编写 `.proto` 文件定义工厂传感器状态上报接口，理解 `message`、`service`、`rpc` 三层结构。
+    - **代码生成**：使用 `grpc_tools.protoc` 自动生成 Python stub，掌握 `--python_out` 与 `--grpc_python_out` 的区别与用途。
+    - **协议对比**：理解 gRPC (Protobuf 二进制) 相比 REST (JSON 文本) 在延迟和带宽上的优势，适用于工业低延迟场景。
+    
 
 ---
 
@@ -70,7 +73,7 @@
 #### Week 3: 工业协议转换与系统韧性
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 16** | gRPC 定义 | 编写 `.proto` 文件定义工厂设备状态上报接口 | Protobuf 3 |
+| ~~**Day 16**~~ | ~~gRPC 定义~~ | ~~编写 `.proto` 文件定义工厂设备状态上报接口~~ | ~~Protobuf 3~~ |
 | **Day 17** | 协议性能测试 | Benchmark 对比 gRPC (Protobuf) 与 REST (JSON) 吞吐量 | gRPC-python |
 | **Day 18** | MQTT 边缘采集 | 模拟 1000 个设备通过 MQTT 异步推送传感器数据 | Mosquitto, Paho |
 | **Day 19** | WS 状态机 | 完善 WebSocket 重连机制、心跳检测与前端同步逻辑 | WebSockets |
