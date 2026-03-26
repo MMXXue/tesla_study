@@ -50,12 +50,14 @@
 - [x] **Day 16**: gRPC 定义与工业协议实战 (Protocol Design 📡)
     - **Proto 定义**：编写 `.proto` 文件定义工厂传感器状态上报接口，理解 `message`、`service`、`rpc` 三层结构。
     - **代码生成**：使用 `grpc_tools.protoc` 自动生成 Python stub，掌握 `--python_out` 与 `--grpc_python_out` 的区别与用途。
-    - **协议对比**：理解 gRPC (Protobuf 二进制) 相比 REST (JSON 文本) 在延迟和带宽上的优势，适用于工业低延迟场景。
 - [x] **Day 17**: 协议性能测试 (Benchmark 对比 gRPC (Protobuf) 与 REST (JSON) 吞吐量)
     - **性能基准测试**：实现 gRPC 与 REST API 的并发吞吐量对比，量化二进制协议在高负载下的优势。
     - **延迟测量**：通过异步压测脚本，测量端到端响应时间，验证 gRPC 在工业场景下的低延迟特性。
     - **资源消耗分析**：对比 CPU、内存占用，评估协议选择对系统资源的影响。
-    
+- [x] **Day 18**: MQTT 边缘采集 (Edge MQTT Ingestion)
+    - **部署补全**：工业级 Mosquitto 一键部署，解决权限与配置文件的“根因故障”。
+    - **协议实战**：理解 MQTT 在海量连接下对比 gRPC 的解耦与负载优势。
+    - **性能直觉**：通过“刷屏”速率测试系统压力，验证高并发时的可用性与稳定性。
 
 ---
 
@@ -77,9 +79,9 @@
 #### Week 3: 工业协议转换与系统韧性
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 16** | gRPC 定义 | 编写 `.proto` 文件定义工厂设备状态上报接口 | Protobuf 3 |
-| **Day 17** | 协议性能测试 | Benchmark 对比 gRPC (Protobuf) 与 REST (JSON) 吞吐量 | gRPC-python |
-| **Day 18** | MQTT 边缘采集 | 模拟 1000 个设备通过 MQTT 异步推送传感器数据 | Mosquitto, Paho |
+| ~~**Day 16**~~ | ~~gRPC 定义~~ | ~~编写 `.proto` 文件定义工厂设备状态上报接口~~ | ~~Protobuf 3~~ |
+| ~~**Day 17**~~ | ~~协议性能测试~~ | ~~Benchmark 对比 gRPC (Protobuf) 与 REST (JSON) 吞吐量~~ | ~~gRPC-python~~ |
+| ~~**Day 18**~~ | ~~MQTT 边缘采集~~ | ~~模拟 1000 个设备通过 MQTT 异步推送传感器数据~~ | ~~Mosquitto, Paho~~ |
 | **Day 19** | WS 状态机 | 完善 WebSocket 重连机制、心跳检测与前端同步逻辑 | WebSockets |
 | **Day 20** | 弹性架构设计 | 为 API 调用实现指数退避 (Exponential Backoff) 重试机制 | Tenacity, Resilience |
 | **Day 21** | 流量治理 | 基于 Redis 令牌桶算法实现设备级/用户级的分布式限流 | Rate Limiting |
