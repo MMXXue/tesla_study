@@ -58,6 +58,11 @@
     - **部署补全**：工业级 Mosquitto 一键部署，解决权限与配置文件的“根因故障”。
     - **协议实战**：理解 MQTT 在海量连接下对比 gRPC 的解耦与负载优势。
     - **性能直觉**：通过“刷屏”速率测试系统压力，验证高并发时的可用性与稳定性。
+- [x] **Day 19**: WebSocket 状态机 (WS State Machine)
+    - **连接管理**：实现 `ConnectionManager` 对在线连接进行连接/断开/广播管理。
+    - **心跳机制**：客户端定时发送 `ping`，服务端 `pong` 应答，检测断线重连状态。
+    - **重连策略**：客户端实现指数退避重连逻辑，`onclose` 后递归重连，10s 限制最高等待。
+
 
 ---
 
@@ -82,7 +87,7 @@
 | ~~**Day 16**~~ | ~~gRPC 定义~~ | ~~编写 `.proto` 文件定义工厂设备状态上报接口~~ | ~~Protobuf 3~~ |
 | ~~**Day 17**~~ | ~~协议性能测试~~ | ~~Benchmark 对比 gRPC (Protobuf) 与 REST (JSON) 吞吐量~~ | ~~gRPC-python~~ |
 | ~~**Day 18**~~ | ~~MQTT 边缘采集~~ | ~~模拟 1000 个设备通过 MQTT 异步推送传感器数据~~ | ~~Mosquitto, Paho~~ |
-| **Day 19** | WS 状态机 | 完善 WebSocket 重连机制、心跳检测与前端同步逻辑 | WebSockets |
+| ~~**Day 19**~~ | ~~WS 状态机~~ | ~~完善 WebSocket 重连机制、心跳检测与前端同步逻辑~~ | ~~WebSockets~~ |
 | **Day 20** | 弹性架构设计 | 为 API 调用实现指数退避 (Exponential Backoff) 重试机制 | Tenacity, Resilience |
 | **Day 21** | 流量治理 | 基于 Redis 令牌桶算法实现设备级/用户级的分布式限流 | Rate Limiting |
 | **Day 22** | **Week 3 Project** | **构建“异构协议网关”**：实现 MQTT -> FastAPI -> WS 全链路 | Protocol Gateway |
