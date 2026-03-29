@@ -1,23 +1,44 @@
+import time
+import redis
+import threading
 
-# 用来接收数据的程序
-# 在 MQTT 中，如果发布者发消息时没有订阅者在线，消息通常就丢了(除非设置了特殊标志).所以我们要先让“大脑”蹲守.
+LUA_RATE_LIMITER = """
+local key = KEYS[1]
+local capacity = tonumber(ARGV[1])
+local fill_rate = tonumber(ARGV[2])
+local now = tonumber(ARGV[3])
+local requested = tonumber(ARGV[4])
 
-import paho.mqtt.client as mqtt
+-- 获取上次的数据
+local data = redis.call("HMGET", key, "tokens", "last_time")
+local last_tokens = tonumber(data[1]) or capacity
+local last_time = tonumber(data[2]) or now
 
+-- 计算补票数量
+local delta = math.max(0, now - last_time) * fill_rate
+local new_tokens = math.min(capacity, last_tokens + delta)
 
-# 1. 定义“听到消息”后要做什么 (Callback)
-async def on_message(client, userdata, msg):
-    print(f"接收到信号频段: {msg.topic} | 内容: {msg.payload.decoder()}")
+if new_tokens >= requested then
+    -- 够扣：更新并返回成功(1)
+    redis.call("HMSET", key, "tokens", new_tokens - requested, "last_time", now)
+    -- 设置过期时间(1分钟没人用就删除，节省空间)
+    redis.call("EXPIRE", key, 60)
+    return 1
+else
+    -- 不够扣：返回失败(0)
+    return 0
+end
+"""
 
-# 2. 初始化客户端 (同样要用 2.0 版本的规矩)
-brain = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, "Sheldon_tesla_brain")
-# 3. 绑定“听到消息”的动作
-brain.on_message = on_message()
-# 4. 连接并订阅频道
-brain.connect("127.0.0.1", 1883)
-brain.subscribe("tesla/factory/+/data")
+class Tesla_limitation():
+    def __init__(self, host='localhost', port=6379):
+        self.r = redis.Redis(host=host, port=port, decode_responses=True)
+        # 预加载脚本
+        self.lua_script = self.r.register_script(LUA_RATE_LIMITER)
 
-print("🧠 大脑已启动，正在监听频道：tesla/factory/robot_01...")
+    def acquire(self, device_id):
+        # 参数：容量10，每秒恢复2个令牌
+        now = time.time()
+        # 执行脚本：keys=[key], args=[capacity, fill_rate, now, requested]
+        return self.lua_script(keys=[f"limiter:{device_id}"], args=[10, 2, now, 1]) == 1
 
-# 5. 开始循环（让程序停在这里，不要运行完就结束）
-brain.loop_forever()
