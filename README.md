@@ -62,7 +62,14 @@
     - **连接管理**：实现 `ConnectionManager` 对在线连接进行连接/断开/广播管理。
     - **心跳机制**：客户端定时发送 `ping`，服务端 `pong` 应答，检测断线重连状态。
     - **重连策略**：客户端实现指数退避重连逻辑，`onclose` 后递归重连，10s 限制最高等待。
-
+- [x] **Day 20**: 弹性架构设计 (Resilient Architecture 🛡️)
+    - **指数退避重试 (Exponential Backoff)**：利用 Tenacity 实现 `wait_exponential`，通过增加重试间隔解决网络抖动，防止“重试风暴”压垮服务器。
+    - **熔断机制 (Circuit Breaker)**：集成 `pybreaker` 实现三色状态机管理（Closed/Open/Half-Open）。在下游服务持续故障时自动“跳闸”拦截请求，保护本地 CPU 与内存资源。
+    - **故障可观测性**：建立重试次数与熔断触发的详细 logging 审计，实现对系统“弹性过程”的黑匣子追踪。
+[x] **Day 21**: 分布式流量治理 (Traffic Management 🚦)
+    - **令牌桶算法 (Token Bucket)**：深入理解其允许“突发流量”的特性，并对比分析其与“漏桶算法”及“连接池”在资源分配上的本质区别。
+    - **Redis + Lua 原子限流**：编写并部署 Lua 脚本至 Redis 内部，实现“读取-计算-写入”的原子化操作，彻底解决分布式环境下的竞态条件 (Race Condition)。
+    - **高并发压力验证**：使用 `threading.Thread` 模拟多线程冲击，验证限流器在微秒级竞争下对流量拦截的精确度（如 10/20 成功率）。
 
 ---
 
@@ -74,7 +81,7 @@
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
 | ~~**Day 09**~~ | ~~索引深度优化~~ | ~~实现百万级对话记录的 EXPLAIN ANALYZE 性能瓶颈分析~~ | ~~PostgreSQL, GIN Index~~ |
-| ~~**Day 10**~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ | ~~增加一个分布式状态机的概念~~ | ~~尝试使用 Redis 实现一个简单的 Distributed State Machine，记录任务从 PENDING -> ANALYZING -> EXECUTING -> COMPLETED 的转换，并处理超时补偿逻辑~~ |
+| ~~**Day 10**~~ | ~~并发锁机制~~ | ~~使用 `SELECT FOR UPDATE` 实现 Agent 状态更新的原子性~~ | ~~Row-level Locking~~ |
 | ~~**Day 11**~~ | ~~连接池调优~~ | ~~针对高并发 I/O 调优 SQLAlchemy 的异步连接池配置~~ | ~~Connection Pooling~~ |
 | ~~**Day 12**~~ | ~~数据库迁移~~ | ~~使用 Alembic 模拟生产环境的 Schema 不停机变更~~ | ~~Alembic, Migrations~~ |
 | ~~**Day 13**~~ | ~~热点缓存策略~~ | ~~接入 Redis 缓存 System Prompt 与 Session~~ | ~~Redis (Cache Aside)~~ |
@@ -89,7 +96,7 @@
 | ~~**Day 18**~~ | ~~MQTT 边缘采集~~ | ~~模拟 1000 个设备通过 MQTT 异步推送传感器数据~~ | ~~Mosquitto, Paho~~ |
 | ~~**Day 19**~~ | ~~WS 状态机~~ | ~~完善 WebSocket 重连机制、心跳检测与前端同步逻辑~~ | ~~WebSockets~~ |
 | ~~**Day 20**~~ | ~~弹性架构设计~~ | ~~为 API 调用实现指数退避 (Exponential Backoff) 重试机制~~ | ~~Tenacity, Resilience~~ |
-| **Day 21** | 流量治理 | 基于 Redis 令牌桶算法实现设备级/用户级的分布式限流 | Rate Limiting |
+| ~~**Day 21**~~ | ~~流量治理~~ | ~~基于 Redis 令牌桶算法实现设备级/用户级的分布式限流~~ | ~~Rate Limiting~~ |
 | **Day 22** | **Week 3 Project** | **构建“异构协议网关”**：实现 MQTT -> FastAPI -> WS 全链路 | Protocol Gateway |
 
 #### Week 4: 工程标准化与可观测性
