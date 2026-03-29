@@ -66,7 +66,7 @@
     - **指数退避重试 (Exponential Backoff)**：利用 Tenacity 实现 `wait_exponential`，通过增加重试间隔解决网络抖动，防止“重试风暴”压垮服务器。
     - **熔断机制 (Circuit Breaker)**：集成 `pybreaker` 实现三色状态机管理（Closed/Open/Half-Open）。在下游服务持续故障时自动“跳闸”拦截请求，保护本地 CPU 与内存资源。
     - **故障可观测性**：建立重试次数与熔断触发的详细 logging 审计，实现对系统“弹性过程”的黑匣子追踪。
-[x] **Day 21**: 分布式流量治理 (Traffic Management 🚦)
+- [x] **Day 21**: 分布式流量治理 (Traffic Management 🚦)
     - **令牌桶算法 (Token Bucket)**：深入理解其允许“突发流量”的特性，并对比分析其与“漏桶算法”及“连接池”在资源分配上的本质区别。
     - **Redis + Lua 原子限流**：编写并部署 Lua 脚本至 Redis 内部，实现“读取-计算-写入”的原子化操作，彻底解决分布式环境下的竞态条件 (Race Condition)。
     - **高并发压力验证**：使用 `threading.Thread` 模拟多线程冲击，验证限流器在微秒级竞争下对流量拦截的精确度（如 10/20 成功率）。
