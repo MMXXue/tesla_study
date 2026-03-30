@@ -39,37 +39,43 @@
         - **全链路追踪**：通过 `redis-cli` 深度调试，攻克从“缓存未命中 (nil)”到“热点命中 (Cache Hit)”的逻辑断层。
         - **多数据结构应用**：深刻理解 **String** (用于静态 Prompt) 与 **List** (用于动态 Session) 的选型边界，确保 Redis 内存利用率的最优化。
 - [x] **Day 14**: 分布式锁实战 (Distributed Lock 🔒)
-    - **Redis锁**: 实现简单的redis锁
-    - **Redlock 算法**：实现多实例环境下的 AI 任务分配唯一性，防止重复消费。
+        - **Redis锁**: 实现简单的redis锁
+        - **Redlock 算法**：实现多实例环境下的 AI 任务分配唯一性，防止重复消费。
 - [x] **Day 15**: Week 2 Project — 高并发诊断日志引擎 (System Design 🚀)
-    - **压测根因定位**：复现 `0/1000` 失败，定位核心问题为压测侧连接池等待超时 (`PoolTimeout`)，而非服务逻辑崩溃。
-    - **外部并发治理**：通过并发扫频找到系统甜点区间（本机约 `10~20`），避免并发过高进入拥塞区导致 TPS 下降、延迟飙升。
-    - **内部热路径优化**：API 保持“只入队不重处理”，采用原始请求体直入 Redis，减少 JSON 解析与请求路径开销。
-    - **消费链路优化**：Worker 使用批量 `LPOP` + 批量落库，降低 Redis 往返次数与数据库写入开销。
-    - **指标化方法论**：建立 `perf_benchmark.py` 与 `PERF_CHECKLIST.md`，以成功率、TPS、avg、p95、p99 作为统一评估标准。
+        - **压测根因定位**：复现 `0/1000` 失败，定位核心问题为压测侧连接池等待超时 (`PoolTimeout`)，而非服务逻辑崩溃。
+        - **外部并发治理**：通过并发扫频找到系统甜点区间（本机约 `10~20`），避免并发过高进入拥塞区导致 TPS 下降、延迟飙升。
+        - **内部热路径优化**：API 保持“只入队不重处理”，采用原始请求体直入 Redis，减少 JSON 解析与请求路径开销。
+        - **消费链路优化**：Worker 使用批量 `LPOP` + 批量落库，降低 Redis 往返次数与数据库写入开销。
+        - **指标化方法论**：建立 `perf_benchmark.py` 与 `PERF_CHECKLIST.md`，以成功率、TPS、avg、p95、p99 作为统一评估标准。
 - [x] **Day 16**: gRPC 定义与工业协议实战 (Protocol Design 📡)
-    - **Proto 定义**：编写 `.proto` 文件定义工厂传感器状态上报接口，理解 `message`、`service`、`rpc` 三层结构。
-    - **代码生成**：使用 `grpc_tools.protoc` 自动生成 Python stub，掌握 `--python_out` 与 `--grpc_python_out` 的区别与用途。
+        - **Proto 定义**：编写 `.proto` 文件定义工厂传感器状态上报接口，理解 `message`、`service`、`rpc` 三层结构。
+        - **代码生成**：使用 `grpc_tools.protoc` 自动生成 Python stub，掌握 `--python_out` 与 `--grpc_python_out` 的区别与用途。
 - [x] **Day 17**: 协议性能测试 (Benchmark 对比 gRPC (Protobuf) 与 REST (JSON) 吞吐量)
-    - **性能基准测试**：实现 gRPC 与 REST API 的并发吞吐量对比，量化二进制协议在高负载下的优势。
-    - **延迟测量**：通过异步压测脚本，测量端到端响应时间，验证 gRPC 在工业场景下的低延迟特性。
-    - **资源消耗分析**：对比 CPU、内存占用，评估协议选择对系统资源的影响。
-- [x] **Day 18**: MQTT 边缘采集 (Edge MQTT Ingestion)
-    - **部署补全**：工业级 Mosquitto 一键部署，解决权限与配置文件的“根因故障”。
-    - **协议实战**：理解 MQTT 在海量连接下对比 gRPC 的解耦与负载优势。
-    - **性能直觉**：通过“刷屏”速率测试系统压力，验证高并发时的可用性与稳定性。
-- [x] **Day 19**: WebSocket 状态机 (WS State Machine)
-    - **连接管理**：实现 `ConnectionManager` 对在线连接进行连接/断开/广播管理。
-    - **心跳机制**：客户端定时发送 `ping`，服务端 `pong` 应答，检测断线重连状态。
-    - **重连策略**：客户端实现指数退避重连逻辑，`onclose` 后递归重连，10s 限制最高等待。
+        - **性能基准测试**：实现 gRPC 与 REST API 的并发吞吐量对比，量化二进制协议在高负载下的优势。
+        - **延迟测量**：通过异步压测脚本，测量端到端响应时间，验证 gRPC 在工业场景下的低延迟特性。
+        - **资源消耗分析**：对比 CPU、内存占用，评估协议选择对系统资源的影响。
+- [x] **Day 18**: MQTT (既可以发送也可以接收数据,且长连接)
+        - **部署补全**：工业级 Mosquitto 一键部署，解决权限与配置文件的“根因故障”。
+        - **协议实战**：理解 MQTT 在海量连接下对比 gRPC 的解耦与负载优势。
+        - **性能直觉**：通过“刷屏”速率测试系统压力，验证高并发时的可用性与稳定性。
+- [x] **Day 19**: WebSocket 状态机 (WS State Machine) (长连接)
+        - **连接管理**：实现 `ConnectionManager` 对在线连接进行连接/断开/广播管理。
+        - **心跳机制**：客户端定时发送 `ping`，服务端 `pong` 应答，检测断线重连状态。
+        - **重连策略**：客户端实现指数退避重连逻辑，`onclose` 后递归重连，10s 限制最高等待。
 - [x] **Day 20**: 弹性架构设计 (Resilient Architecture 🛡️)
-    - **指数退避重试 (Exponential Backoff)**：利用 Tenacity 实现 `wait_exponential`，通过增加重试间隔解决网络抖动，防止“重试风暴”压垮服务器。
-    - **熔断机制 (Circuit Breaker)**：集成 `pybreaker` 实现三色状态机管理（Closed/Open/Half-Open）。在下游服务持续故障时自动“跳闸”拦截请求，保护本地 CPU 与内存资源。
-    - **故障可观测性**：建立重试次数与熔断触发的详细 logging 审计，实现对系统“弹性过程”的黑匣子追踪。
+        - **指数退避重试 (Exponential Backoff)**：利用 Tenacity 实现 `wait_exponential`，通过增加重试间隔解决网络抖动，防止“重试风暴”压垮服务器。
+        - **熔断机制 (Circuit Breaker)**：集成 `pybreaker` 实现三色状态机管理（Closed/Open/Half-Open）。在下游服务持续故障时自动“跳闸”拦截请求，保护本地 CPU 与内存资源。
+        - **故障可观测性**：建立重试次数与熔断触发的详细 logging 审计，实现对系统“弹性过程”的黑匣子追踪。
 - [x] **Day 21**: 分布式流量治理 (Traffic Management 🚦)
-    - **令牌桶算法 (Token Bucket)**：深入理解其允许“突发流量”的特性，并对比分析其与“漏桶算法”及“连接池”在资源分配上的本质区别。
-    - **Redis + Lua 原子限流**：编写并部署 Lua 脚本至 Redis 内部，实现“读取-计算-写入”的原子化操作，彻底解决分布式环境下的竞态条件 (Race Condition)。
-    - **高并发压力验证**：使用 `threading.Thread` 模拟多线程冲击，验证限流器在微秒级竞争下对流量拦截的精确度（如 10/20 成功率）。
+        - **令牌桶算法 (Token Bucket)**：深入理解其允许“突发流量”的特性，并对比分析其与“漏桶算法”及“连接池”在资源分配上的本质区别。
+        - **Redis + Lua 原子限流**：编写并部署 Lua 脚本至 Redis 内部，实现“读取-计算-写入”的原子化操作，彻底解决分布式环境下的竞态条件 (Race Condition)。
+        - **高并发压力验证**：使用 `threading.Thread` 模拟多线程冲击，验证限流器在微秒级竞争下对流量拦截的精确度（如 10/20 成功率）。
+- [x] **Day 22**: Week 3 Project — 异构协议网关 (Protocol Gateway 🚦) - MQTT/FastAPI/WebSocket
+        - **MQTT 订阅与消息处理**：连接公共 MQTT Broker (broker.emqx.io)，订阅 "tesla/sensors" 主题，实时接收传感器数据。
+        - **WebSocket 广播机制**：集成 ConnectionManager，实现 MQTT 消息到 WebSocket 客户端的实时广播。
+        - **协议转换逻辑**：将 MQTT 二进制消息解析为 JSON，通过 FastAPI 中间层转发至 WebSocket。
+        - **CORS 配置**：修复前端连接时的 403 Forbidden 错误，确保跨域访问。
+        - **异步架构**：利用 asyncio 实现高并发消息处理，支持多客户端同时监控。
 
 ---
 
@@ -97,7 +103,7 @@
 | ~~**Day 19**~~ | ~~WS 状态机~~ | ~~完善 WebSocket 重连机制、心跳检测与前端同步逻辑~~ | ~~WebSockets~~ |
 | ~~**Day 20**~~ | ~~弹性架构设计~~ | ~~为 API 调用实现指数退避 (Exponential Backoff) 重试机制~~ | ~~Tenacity, Resilience~~ |
 | ~~**Day 21**~~ | ~~流量治理~~ | ~~基于 Redis 令牌桶算法实现设备级/用户级的分布式限流~~ | ~~Rate Limiting~~ |
-| **Day 22** | **Week 3 Project** | **构建“异构协议网关”**：实现 MQTT -> FastAPI -> WS 全链路 | Protocol Gateway |
+| ~~**Day 22**~~ | ~~**Week 3 Project**~~ | ~~**构建“异构协议网关”**：实现 MQTT -> FastAPI -> WS 全链路~~ | ~~Protocol Gateway~~ |
 
 #### Week 4: 工程标准化与可观测性
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
