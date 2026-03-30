@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from manager import manager  # 导入刚才写的收纳盒
 from fastapi_mqtt import FastMQTT, MQTTConfig
 import json
+# from database import AsyncSessionLocal, SensorLog, init_db
 
 # # --- 模拟数据工厂：每 3 秒生成一个假传感器数据 ---
 # async def mock_sensor_data():
