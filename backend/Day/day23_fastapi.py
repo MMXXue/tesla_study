@@ -5,6 +5,7 @@ from day23_logger import log
 
 app = FastAPI()
 
+# 中间件
 # 所有访问你 API 的请求，在到达你的业务代码（比如 root 函数）之前，必须先经过这个安检口
 @app.middleware("http")
 async def add_trace_id_middleware(request: Request, call_next):
@@ -19,6 +20,7 @@ async def add_trace_id_middleware(request: Request, call_next):
     response = await call_next(request)
     
     # 也可以在响应头中返回 trace_id，方便前端排查问题
+    # 给别人（前端、用户、其他系统）**看的
     response.headers["X-Trace-ID"] = trace_id
     return response
 
