@@ -76,7 +76,11 @@
     - **协议转换逻辑**：将 MQTT 二进制消息解析为 JSON，通过 FastAPI 中间层转发至 WebSocket。
     - **CORS 配置**：修复前端连接时的 403 Forbidden 错误，确保跨域访问。
     - **异步架构**：利用 asyncio 实现高并发消息处理，支持多客户端同时监控。
-
+- [x] **Day 23**: 结构化日志
+    - **Trace ID 注入**：使用中间件为每个请求生成唯一 UUID，并绑定到协程上下文。
+    - **结构化日志配置**：配置 structlog 处理器，包括日志级别、时间戳、上下文变量合并和 JSON/彩色输出。
+    - **全链路追踪**：通过 bind_contextvars 实现日志中的 Trace ID 自动注入，确保请求链路可追踪。
+    - **响应头返回**：在 HTTP 响应头中添加 X-Trace-ID，便于前端和外部系统调试。
 ---
 
 # 🚀 Tesla AI Engineer 365-Day Challenge: Phase 1
@@ -108,7 +112,7 @@
 #### Week 4: 工程标准化与可观测性
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 23** | 结构化日志 | 接入 `structlog`，实现包含 Trace ID 的全链路日志追踪 | Structured Logging |
+| ~~**Day 23**~~ | ~~结构化日志~~ | ~~接入 `structlog`，实现包含 Trace ID 的全链路日志追踪~~ | ~~Structured Logging~~ |
 | **Day 24** | 性能 Profiling | 使用 `py-spy` 或 `cProfile` 识别异步代码中的阻塞瓶颈 | Profiling |
 | **Day 25** | 异步单元测试 | 编写 Pytest-asyncio 脚本，目标代码覆盖率 > 80% | TDD, Mocking |
 | **Day 26** | 数据清洗方案 | 利用 Pydantic v2 实现工业传感数据的严苛校验 | Data Validation |
