@@ -113,8 +113,8 @@
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
 | ~~**Day 23**~~ | ~~结构化日志~~ | ~~接入 `structlog`，实现包含 Trace ID 的全链路日志追踪~~ | ~~Structured Logging~~ |
-| **Day 24** | 性能 Profiling | 使用 `py-spy` 或 `cProfile` 识别异步代码中的阻塞瓶颈 | Profiling |
-| **Day 25** | 异步单元测试 | 编写 Pytest-asyncio 脚本，目标代码覆盖率 > 80% | TDD, Mocking |
+| ~~**Day 24**~~ | ~~性能 Profiling~~ | ~~使用 `py-spy` 或 `cProfile` 识别异步代码中的阻塞瓶颈~~ | ~~Profiling~~ |
+| ~~**Day 25**~~ | ~~异步单元测试~~ | ~~编写 Pytest-asyncio 脚本，目标代码覆盖率 > 80%~~ | ~~TDD, Mocking~~ |
 | **Day 26** | 数据清洗方案 | 利用 Pydantic v2 实现工业传感数据的严苛校验 | Data Validation |
 | **Day 27** | 镜像体积优化 | 采用 Multi-stage Build 将 Docker 镜像体积缩减 80% | Dockerfile Opt |
 | **Day 28** | 环境隔离体系 | 构建基于 `pydantic-settings` 的多环境配置动态注入 | Config Management |
