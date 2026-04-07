@@ -81,6 +81,18 @@
     - **结构化日志配置**：配置 structlog 处理器，包括日志级别、时间戳、上下文变量合并和 JSON/彩色输出。
     - **全链路追踪**：通过 bind_contextvars 实现日志中的 Trace ID 自动注入，确保请求链路可追踪。
     - **响应头返回**：在 HTTP 响应头中添加 X-Trace-ID，便于前端和外部系统调试。
+- [x] **Day 24**: 性能 Profiling
+    - **cProfile 集成**：使用 cProfile 对异步代码进行性能分析，识别 CPU 密集型任务的阻塞瓶颈。
+    - **异步服务分析**：通过 FastAPI 端点模拟重负载场景，分析函数调用时间和资源消耗。
+    - **性能优化洞察**：识别 slow_function 和 heavy_computation 等耗时操作，为后续优化提供数据支持。
+- [x] **Day 25**: 异步单元测试
+    - **Pytest-asyncio 实践**：编写异步测试脚本，使用 @pytest.mark.asyncio 装饰器处理协程测试。
+    - **Mocking 技术**：利用 AsyncMock 模拟数据库操作，避免测试时的外部依赖。
+    - **测试覆盖**：实现对 welcome_user 函数的逻辑验证，确保异步代码的正确性和可靠性。
+- [x] **Day 26**: 数据清洗方案
+    - **Pydantic v2 校验**：使用 BaseModel 和 Field 实现工业传感数据的严苛校验，包括类型和范围验证。
+    - **错误捕获与分析**：通过 ValidationError 捕获并分析数据错误，提供详细的错误信息。
+    - **数据质量保障**：确保传感器数据（如 id 和 val）的有效性，防止无效数据进入系统。
 ---
 
 # 🚀 Tesla AI Engineer 365-Day Challenge: Phase 1
@@ -113,10 +125,10 @@
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
 | ~~**Day 23**~~ | ~~结构化日志~~ | ~~接入 `structlog`，实现包含 Trace ID 的全链路日志追踪~~ | ~~Structured Logging~~ |
-| ~~**Day 24**~~ | ~~性能 Profiling~~ | ~~使用 `py-spy` 或 `cProfile` 识别异步代码中的阻塞瓶颈~~ | ~~Profiling~~ |
-| ~~**Day 25**~~ | ~~异步单元测试~~ | ~~编写 Pytest-asyncio 脚本，目标代码覆盖率 > 80%~~ | ~~TDD, Mocking~~ |
-| **Day 26** | 数据清洗方案 | 利用 Pydantic v2 实现工业传感数据的严苛校验 | Data Validation |
-| **Day 27** | 镜像体积优化 | 采用 Multi-stage Build 将 Docker 镜像体积缩减 80% | Dockerfile Opt |
+| ~~**Day 24**~~ | ~~性能 Profiling~~ | ~~使用 `cProfile` 识别异步代码中的阻塞瓶颈~~ | ~~Profiling~~ |
+| ~~**Day 25**~~ | ~~异步单元测试~~ | ~~编写 Pytest-asyncio 脚本，使用 Mocking 进行异步单元测试~~ | ~~TDD, Mocking~~ |
+| ~~**Day 26**~~ | ~~数据清洗方案~~ | ~~利用 Pydantic v2 实现工业传感数据的严苛校验~~ | ~~Data Validation~~ |
+| ~~**Day 27**~~ | 镜像体积优化 | 采用 Multi-stage Build 将 Docker 镜像体积缩减 80% | Dockerfile Opt |
 | **Day 28** | 环境隔离体系 | 构建基于 `pydantic-settings` 的多环境配置动态注入 | Config Management |
 | **Day 29** | API 标准化 | 生成完全符合 OpenAPI 标准的文档，自动生成前端 SDK | Swagger/OpenAPI |
 | **Day 30** | **Month 1 Milestone** | **发布 TS-79 诊断专家 v1.0 生产级镜像** | Release Engineering |
