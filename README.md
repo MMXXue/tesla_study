@@ -93,6 +93,7 @@
     - **Pydantic v2 校验**：使用 BaseModel 和 Field 实现工业传感数据的严苛校验，包括类型和范围验证。
     - **错误捕获与分析**：通过 ValidationError 捕获并分析数据错误，提供详细的错误信息。
     - **数据质量保障**：确保传感器数据（如 id 和 val）的有效性，防止无效数据进入系统。
+- [x] **Day 27**: 实现了基于多阶段构建的 Docker 环境优化，将镜像体积从约 800MB 缩减至 85MB，初步掌握工业级部署规范。
 ---
 
 # 🚀 Tesla AI Engineer 365-Day Challenge: Phase 1
@@ -128,7 +129,7 @@
 | ~~**Day 24**~~ | ~~性能 Profiling~~ | ~~使用 `cProfile` 识别异步代码中的阻塞瓶颈~~ | ~~Profiling~~ |
 | ~~**Day 25**~~ | ~~异步单元测试~~ | ~~编写 Pytest-asyncio 脚本，使用 Mocking 进行异步单元测试~~ | ~~TDD, Mocking~~ |
 | ~~**Day 26**~~ | ~~数据清洗方案~~ | ~~利用 Pydantic v2 实现工业传感数据的严苛校验~~ | ~~Data Validation~~ |
-| ~~**Day 27**~~ | 镜像体积优化 | 采用 Multi-stage Build 将 Docker 镜像体积缩减 80% | Dockerfile Opt |
+| ~~**Day 27**~~ | ~~镜像体积优化~~ | ~~采用 Multi-stage Build 将 Docker 镜像体积缩减 80%~~ | ~~Dockerfile Opt~~ |
 | **Day 28** | 环境隔离体系 | 构建基于 `pydantic-settings` 的多环境配置动态注入 | Config Management |
 | **Day 29** | API 标准化 | 生成完全符合 OpenAPI 标准的文档，自动生成前端 SDK | Swagger/OpenAPI |
 | **Day 30** | **Month 1 Milestone** | **发布 TS-79 诊断专家 v1.0 生产级镜像** | Release Engineering |
