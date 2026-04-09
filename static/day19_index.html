@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Day 19: WS 状态机</title>
+    <style>
+        #status { padding: 10px; border-radius: 5px; color: white; margin-bottom: 10px; font-weight: bold; }
+        .connected { background-color: #28a745; }    /* 绿色 */
+        .reconnecting { background-color: #ffc107; } /* 黄色 */
+        .disconnected { background-color: #dc3545; } /* 红色 */
+        #log { border: 1px solid #ccc; height: 200px; overflow-y: scroll; padding: 10px; background: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h2>WebSocket 状态机测试</h2>
+    <div id="status" class="disconnected">状态：未连接</div>
+    
+    <input type="text" id="msgInput" placeholder="输入消息...">
+    <button onclick="send()">发送</button>
+    
+    <h4>消息记录：</h4>
+    <div id="log"></div>
+
+    <script>
+        let ws;
+        let retryCount = 0;
+        const statusDiv = document.getElementById('status');
+        const logDiv = document.getElementById('log');
+
+        // 这是总指挥部, “接线员操作手册”
+        // 自动拨号 -> 自动维持 -> 断开自动重拨
+        function initWebSocket() {
+            // 状态机：进入“尝试连接”状态
+            updateUI('reconnecting', '正在尝试拨号...');
+            
+            ws = new WebSocket("ws://localhost:8000/ws");
+
+            ws.onopen = () => {
+                updateUI('connected', '通话中 (已在线)');
+                retryCount = 0; // 重置重连次数
+                startHeartbeat();
+            };
+
+            ws.onmessage = (event) => {
+                if (event.data === "pong") {
+                    console.log("💓 服务器还在，心跳正常");
+                    return;
+                }
+                addLog("📩 服务端说: " + event.data);
+            };
+
+            ws.onclose = () => {
+                updateUI('disconnected', '电话挂断，准备重拨...');
+                stopHeartbeat();
+                
+                // 【指数退避重连】
+                let delay = Math.min(Math.pow(2, retryCount) * 1000, 10000);
+                console.log(`${delay/1000}秒后重连...`);
+                
+                setTimeout(() => {
+                    retryCount++;
+                    initWebSocket(); // 递归重连
+                }, delay);
+            };
+        }
+
+        // 辅助函数, 专门负责改页面上的显示。
+        // 备注：就像手机屏幕上方显示的“正在呼叫”、“已接通”或“无信号”。
+        function updateUI(cls, text) {
+            statusDiv.className = cls;
+            statusDiv.innerText = `状态：${text}`;
+        }
+
+        // 负责把收到的消息显示在网页下方, 气泡
+        function addLog(msg) {
+            logDiv.innerHTML += `<div>${msg}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        let heartTimer;
+        // 维持通话
+        function startHeartbeat() {
+            heartTimer = setInterval(() => {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send("ping");
+                }
+            }, 5000);
+        }
+
+        // 挂掉电话，停止询问
+        function stopHeartbeat() {
+            clearInterval(heartTimer);
+        }
+
+        // 这是用户点击“发送”按钮时触发的函数
+        function send() {
+            const input = document.getElementById('msgInput');
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(input.value);
+                addLog("📤 我说: " + input.value);
+                input.value = '';
+            }
+        }
+
+        // 初始化, 启动
+        initWebSocket();
+    </script>
+</body>
+</html>

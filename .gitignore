@@ -2,3 +2,6 @@ venv/
 __pycache__/
 *.pyc
 .vscode/
+
+# 忽略所有的环境变量真值文件
+.env
