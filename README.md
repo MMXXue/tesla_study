@@ -94,6 +94,13 @@
     - **错误捕获与分析**：通过 ValidationError 捕获并分析数据错误，提供详细的错误信息。
     - **数据质量保障**：确保传感器数据（如 id 和 val）的有效性，防止无效数据进入系统。
 - [x] **Day 27**: 实现了基于多阶段构建的 Docker 环境优化，将镜像体积从约 800MB 缩减至 85MB，初步掌握工业级部署规范。
+- [x] **Day 28**: 环境隔离与多环境配置体系
+    - **Pydantic Settings 架构**：构建了基于 pydantic-settings 的中央配置大脑，实现了配置与逻辑的完全解耦，符合 12-Factor App 工业标准。
+     - **动态注入与优先级管理**：实现了从 .env 文件到系统环境变量的动态注入，并掌握了“系统变量 > .env 文件 > 默认值”的优先级控制逻辑，确保系统在不同环境下的灵活性。
+    - **工程标准化实践**：建立了 .env.example 模板机制，规范了敏感数据（Postgres, Redis, DeepSeek API）的管理流，并结合 .gitignore 强化了工程安全性，杜绝密钥泄露风险。
+
+
+    
 ---
 
 # 🚀 Tesla AI Engineer 365-Day Challenge: Phase 1
@@ -130,7 +137,7 @@
 | ~~**Day 25**~~ | ~~异步单元测试~~ | ~~编写 Pytest-asyncio 脚本，使用 Mocking 进行异步单元测试~~ | ~~TDD, Mocking~~ |
 | ~~**Day 26**~~ | ~~数据清洗方案~~ | ~~利用 Pydantic v2 实现工业传感数据的严苛校验~~ | ~~Data Validation~~ |
 | ~~**Day 27**~~ | ~~镜像体积优化~~ | ~~采用 Multi-stage Build 将 Docker 镜像体积缩减 80%~~ | ~~Dockerfile Opt~~ |
-| **Day 28** | 环境隔离体系 | 构建基于 `pydantic-settings` 的多环境配置动态注入 | Config Management |
+| ~~**Day 28**~~ | ~~环境隔离体系~~ | ~~构建基于 `pydantic-settings` 的多环境配置动态注入~~ | ~~Config Management~~ |
 | **Day 29** | API 标准化 | 生成完全符合 OpenAPI 标准的文档，自动生成前端 SDK | Swagger/OpenAPI |
 | **Day 30** | **Month 1 Milestone** | **发布 TS-79 诊断专家 v1.0 生产级镜像** | Release Engineering |
 
