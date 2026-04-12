@@ -28,7 +28,7 @@ test_cases = [
         "vin": f"TSLA{i:09d}XXXX",  # 4 + 9 + 4 = 17
         "fault_code": f"BMS_a{i}66"
     }
-    for i in range(1, 6)
+    for i in range(1, 101)
 ]
 
 for case in test_cases:

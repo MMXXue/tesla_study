@@ -100,7 +100,7 @@
     - **工程标准化实践**：建立了 .env.example 模板机制，规范了敏感数据（Postgres, Redis, DeepSeek API）的管理流，并结合 .gitignore 强化了工程安全性，杜绝密钥泄露风险。
 
 
-    
+
 ---
 
 # 🚀 Tesla AI Engineer 365-Day Challenge: Phase 1
@@ -138,7 +138,7 @@
 | ~~**Day 26**~~ | ~~数据清洗方案~~ | ~~利用 Pydantic v2 实现工业传感数据的严苛校验~~ | ~~Data Validation~~ |
 | ~~**Day 27**~~ | ~~镜像体积优化~~ | ~~采用 Multi-stage Build 将 Docker 镜像体积缩减 80%~~ | ~~Dockerfile Opt~~ |
 | ~~**Day 28**~~ | ~~环境隔离体系~~ | ~~构建基于 `pydantic-settings` 的多环境配置动态注入~~ | ~~Config Management~~ |
-| **Day 29** | API 标准化 | 生成完全符合 OpenAPI 标准的文档，自动生成前端 SDK | Swagger/OpenAPI |
+| ~~**Day 29**~~ | ~~API 标准化~~ | ~~生成完全符合 OpenAPI 标准的文档，自动生成前端 SDK~~ | ~~Swagger/OpenAPI~~ |
 | **Day 30** | **Month 1 Milestone** | **发布 TS-79 诊断专家 v1.0 生产级镜像** | Release Engineering |
 
 ---

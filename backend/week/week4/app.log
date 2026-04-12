@@ -1,0 +1,8 @@
+{"device_id": "TS-79-SYD-001", "trace_id": "67ff9890-9a0d-4fa9-8a43-3d81b85b70a2", "event": "start_diagnosis", "timestamp": "2026-04-12T10:39:36.348525Z", "level": "info"}
+{"device_id": "TS-79-SYD-001", "is_healthy": true, "event": "diagnosis_complete", "timestamp": "2026-04-12T10:39:36.348867Z", "level": "info"}
+HTTP Request: POST http://testserver/v1/diagnose "HTTP/1.1 200 OK"
+{"device_id": "TS-79-SYD-002", "trace_id": "763aa6d2-94be-4d4f-bb6e-99a5d949106f", "event": "start_diagnosis", "timestamp": "2026-04-12T10:39:36.351150Z", "level": "info"}
+{"device_id": "TS-79-SYD-002", "value": 95.0, "event": "overheat_detected", "timestamp": "2026-04-12T10:39:36.351283Z", "level": "error"}
+{"device_id": "TS-79-SYD-002", "is_healthy": false, "event": "diagnosis_complete", "timestamp": "2026-04-12T10:39:36.351346Z", "level": "info"}
+HTTP Request: POST http://testserver/v1/diagnose "HTTP/1.1 200 OK"
+HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
