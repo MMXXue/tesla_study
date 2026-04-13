@@ -107,7 +107,13 @@
      - **极简依赖管理实践**：弃用传统的 pip freeze 方案，采用 pipreqs 实现基于代码扫描的按需依赖注入。这一举措不仅剔除了历史残留的冗余库，更显著降低了 Docker 镜像的潜在攻击面和启动时延。
      - **权限与持久化方案**：利用 chmod 666 解决了容器内外文件系统的权限壁垒，结合 RUN touch 指令确保了系统在无状态容器环境下的文件写入稳定性。
      - **卷挂载（Volume）实时监控**：通过 docker run -v 技术实现了宿主机与容器内部日志文件的实时同步挂载，构建了"生产环境运行、开发环境监控"的工程闭环。
+- [x] Day 31: 全栈 AI 架构转型与 Next.js 15 混合渲染实战
+    - **双轴并行开发环境构建**：在保持原有 Python 后端生态的同时，基于 Conda 构建了独立的 Node.js 20 运行环境，实现了 AI 模型逻辑与前端展现层的“物理隔离与逻辑共生”。
+    - **前端工程化目录规范**：建立了 frontend/backend 的分层目录体系。通过基于文件夹的路由协议（File-based Routing）构建了多页面应用骨架，并利用 <Link> 组件实现了无刷新的单页应用（SPA）交互体验。
 
+
+
+    
 ---
 
 # 🚀 Tesla AI Engineer 365-Day Challenge: Phase 1
@@ -165,7 +171,7 @@
 #### Week 5: 现代前端基石与响应式系统 (The Shell)
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 31** | Next.js 核心架构 | 掌握 App Router, Server Components 与 Client Components 混合使用 | Next.js 15+ |
+| ~~**Day 31**~~ | ~~Next.js 核心架构~~ | ~~掌握 App Router, Server Components 与 Client Components 混合使用~~ | ~~Next.js 15+~~ |
 | **Day 32** | Tailwind CSS 布局 | 构建“赛博朋克”风格 Grid 布局，支持工厂多节点监控卡片流 | Flexbox/Grid |
 | **Day 33** | 响应式深度适配 | 适配移动端与超宽屏（Ultrawide），确保监控数据不溢出、不重叠 | Breakpoints |
 | **Day 34** | 组件化开发 | 抽象出可复用的 AI Chat Bubble 和 Device Status Card 基础组件 | Atomic Design |
