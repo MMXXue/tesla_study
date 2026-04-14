@@ -1,32 +1,3 @@
-
-// (不写 use client): 作为 Server Component，在这里读取数据库或 AI 模型数据。
-
-// // 默认情况下，这块代码是 Server Component
-// // 它的 log 会打印在你的终端里，而不是浏览器里
-// export default function Day31() {
-//   console.log("Hello from the SERVER! 我是服务器渲染的");
-
-//   return (
-//     <div className="flex flex-col items-center justify-center min-h-screen p-8">
-//       <h1 className="text-3xl font-bold">Tesla AI Study - Day 31</h1>
-//       <p className="mt-4 text-lg text-gray-400">
-//         当前任务：掌握服务器组件与客户端组件的混合使用
-//       </p>
-
-//       {/* 这里的交互需要 Client Component */}
-//       <div className="mt-10 p-6 border border-dashed border-gray-500 rounded-lg">
-//         <p>如果你想点这个按钮，Next.js 会报错，除非我们把它变成 Client Component</p>
-//         <button 
-//           className="mt-4 px-6 py-2 bg-blue-600 rounded-full hover:bg-blue-500 transition-colors"
-//           onClick={() => alert('点击成功！')}
-//         >
-//           交互测试
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
 import Link from 'next/link';
 import {MyButton} from "./components/MyButton"; // 这里的路径确保指向你的组件文件夹
 
