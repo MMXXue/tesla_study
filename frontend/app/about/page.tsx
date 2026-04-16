@@ -4,6 +4,9 @@
 import { MyButton } from "../components/MyButton";
 import StatusCard from '../components/StatusCard';
 import ChatBubble from '../components/ChatBubble';
+import { MotionCard } from '../components/MotionCard';
+import { ToggleCard } from '../components/ToggleCard';
+import LayoutCard from '../components/LayoutCard';
 
 export default function Day32() {
   const progressData = [
@@ -72,6 +75,25 @@ export default function Day32() {
           />
         ))}
       </div>
+
+    <div className="mt-12 pt-8 border-t border-white/10 flex justify-center">
+      <MotionCard />
+      <MotionCard />
+      <MotionCard />
+      <MotionCard />
+      <MotionCard />
+    </div>
+
+    <div className="mt-12 pt-8 border-t border-white/10 flex justify-center">
+      <ToggleCard />
+    </div>
+
+    <div>
+      <LayoutCard />
+    </div>
+
+    
+
     </main>
   );
 }
