@@ -119,7 +119,10 @@
 - [x] **Day 34**: 原子化设计与架构抽象（Component Architecture）
     - **Atomic Design** 实践：将 UI 拆解为“原子（StatusDot）”与“生物（StatusCard）”和“生物 (ChatBubble)”，实现了视觉组件的极高复用性。
     - **类型驱动开发 (TSD)**：通过 TypeScript interface 与 type 建立了严谨的组件合同，为后续接入真实 AI 后端数据打下了“类型安全”的基础。
-    
+- [x] **Day 35**：引入 Framer Motion 实现极致流畅的组件进入与状态切换动画
+    - **“自动补帧” (Layout Animation)**：不再需要手动计算宽度和高度，只要样式发生变化，Framer Motion 会自动通过 FLIP 算法 补全中间的过渡，让组件像“液体”一样丝滑形变。
+    -**“灵魂转移” (Shared Layout)**: 通过 layoutId 实现了跨组件的关联动画。理解了 activeTab === tab 的严格逻辑判断，让导航条的下划线能在不同选项间“跨时空飞行”，彻底告别了生硬的闪现切换。
+    -**环境排雷与路径管理**: 实战解决了 Can't resolve 'tailwindcss' 的路径报错。深刻理解了在多层级项目（frontend 目录）中，保持 工作路径 (pwd) 与 依赖安装 (node_modules) 一致性的重要性，建立了一套 Senior 级别的 SOP 操作流程。
 
 
 
@@ -184,7 +187,7 @@
 | ~~**Day 32**~~ | ~~Tailwind CSS 布局~~ | ~~构建“赛博朋克”风格 Grid 布局，支持工厂多节点监控卡片流~~ | ~~Flexbox/Grid~~ |
 | ~~**Day 33**~~ | ~~响应式深度适配~~ | ~~适配移动端与超宽屏（Ultrawide），确保监控数据不溢出、不重叠~~ | ~~Breakpoints~~ |
 | ~~**Day 34**~~ | ~~组件化开发~~ | ~~抽象出可复用的 AI Chat Bubble 和 Device Status Card 基础组件~~ | ~~Atomic Design~~ |
-| **Day 35** | 动态交互进阶 | 引入 Framer Motion 实现极致流畅的组件进入与状态切换动画 | Framer Motion |
+| ~~**Day 35**~~ | ~~动态交互进阶~~ | ~~引入 Framer Motion 实现极致流畅的组件进入与状态切换动画~~ | ~~Framer Motion~~ |
 | **Day 36** | 图标与视觉语义 | 针对设备运行、故障、待机状态设计视觉反馈系统 | Lucide React |
 | **Day 37** | **Week 5 Project** | **构建“工厂资产管理面板”**：实现全响应式的静态设备可视化看板 | UI Prototype |
 
