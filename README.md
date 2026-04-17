@@ -188,7 +188,7 @@
 | ~~**Day 33**~~ | ~~响应式深度适配~~ | ~~适配移动端与超宽屏（Ultrawide），确保监控数据不溢出、不重叠~~ | ~~Breakpoints~~ |
 | ~~**Day 34**~~ | ~~组件化开发~~ | ~~抽象出可复用的 AI Chat Bubble 和 Device Status Card 基础组件~~ | ~~Atomic Design~~ |
 | ~~**Day 35**~~ | ~~动态交互进阶~~ | ~~引入 Framer Motion 实现极致流畅的组件进入与状态切换动画~~ | ~~Framer Motion~~ |
-| **Day 36** | 图标与视觉语义 | 针对设备运行、故障、待机状态设计视觉反馈系统 | Lucide React |
+| ~~**Day 36**~~ | ~~图标与视觉语义~~ | ~~针对设备运行、故障、待机状态设计视觉反馈系统~~ | ~~Lucide React~~ |
 | **Day 37** | **Week 5 Project** | **构建“工厂资产管理面板”**：实现全响应式的静态设备可视化看板 | UI Prototype |
 
 #### Week 6: 状态管理与复杂数据流 (The Nervous System)
