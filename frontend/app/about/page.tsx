@@ -7,6 +7,7 @@ import ChatBubble from '../components/ChatBubble';
 import { MotionCard } from '../components/MotionCard';
 import { ToggleCard } from '../components/ToggleCard';
 import LayoutCard from '../components/LayoutCard';
+import { DeviceCard } from '../components/DeviceCard';
 
 export default function Day32() {
   const progressData = [
@@ -92,6 +93,9 @@ export default function Day32() {
       <LayoutCard />
     </div>
 
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <DeviceCard />
+    </div>
     
 
     </main>
