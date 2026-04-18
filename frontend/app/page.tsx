@@ -16,7 +16,9 @@ export default function Day31() {
         <div className="font-bold tracking-widest uppercase text-sm">Tesla Study OS</div>
         <div className="flex gap-6 text-sm">
           <Link href="/" className="hover:text-white transition-colors">HOME</Link>
-          <Link href="/about" className="hover:text-white transition-colors font-semibold border-b border-white">DASHBOARD</Link>
+          <Link href="/about" className="hover:text-white transition-colors font-semibold border-b border-white">ABOUT</Link>
+          <Link href="/learn" className="hover:text-white transition-colors font-semibold border-b border-white">LEARN</Link>
+          <Link href="/dashboard" className="hover:text-white transition-colors font-semibold border-b border-white">DASHBOARD</Link>
         </div>
       </nav>
 
