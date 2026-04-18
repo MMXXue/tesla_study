@@ -19,7 +19,7 @@ interface StatusConfig {
     label: string;
 }
 
-export function ItemsStatusCard({deviceId, status, healthy, temperature}: ItemsStatusCardProps){
+export function ItemsStatusCard({deviceId, status, healthy, temperature, battery}: ItemsStatusCardProps){
     // 显式定义 Record 类型，确保 key 覆盖了所有状态
     const configs: Record<DeviceStatus, StatusConfig> = {
         Pending: { 
@@ -52,7 +52,7 @@ export function ItemsStatusCard({deviceId, status, healthy, temperature}: ItemsS
         <div className={`rounded-xl p-4 border border-white/10 ${config.bg} transition-all`}>
             <div className="flex justify-between items-start mb-4">
                 <div>
-                    <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                    <h3 className="text-xl font-medium text-slate-400 uppercase tracking-wider">
                         {deviceId}
                     </h3>
                     <p className={`text-xs font-bold mt-1 ${config.color}`}>
