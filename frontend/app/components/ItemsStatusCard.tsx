@@ -25,26 +25,33 @@ export function ItemsStatusCard({deviceId, status, healthy, temperature, battery
         Pending: { 
             icon: Moon, 
             color: 'text-slate-400', 
-            bg: 'bg-slate-900/50', 
+            bg: 'bg-slate-900', 
             label: 'Standby' 
         },
         Activate: { 
             icon: Play, 
             color: 'text-emerald-400', 
-            bg: 'bg-emerald-900/20', 
+            bg: 'bg-emerald-900', 
             label: 'Running'
         },
         Error: { 
             icon: AlertTriangle, 
             color: 'text-rose-500', 
-            bg: 'bg-rose-900/30', 
+            bg: 'bg-rose-900', 
             label: 'System Failure'
         }
     };
 
+    // --- 进度条逻辑处理 ---
+    // 将 battery 转为数字，并限制在 0-100
+    const batteryValue = typeof battery === 'string' ? parseFloat(battery) : battery;
+    const clampedBattery = Math.max(0, Math.min(100, batteryValue || 0));
+    // 根据电量决定进度条颜色：低于 20% 变红，其他时间用嫩绿色
+    const barColor = clampedBattery < 20 ? 'bg-rose-500' : 'bg-emerald-400';
+
+
     // 1. 增加安全性检查：如果 status 不在 configs 中，使用 Pending 作为默认值
     const config = configs[status] || configs.Pending; 
-    
     // 2. 现在 config 绝对不会是 undefined，读取 icon 也就安全了
     const Icon = config.icon;
 
@@ -79,6 +86,18 @@ export function ItemsStatusCard({deviceId, status, healthy, temperature, battery
                     <span className="text-2xl font-bold text-white">{battery}</span>
                     <span className="text-sm text-slate-500 ml-1">%</span>
                     <p className="text-[10px] text-slate-500 uppercase">Battery</p>
+                </div>
+            </div>
+            <div className="mt-2"> {/* 给进度条留点间距 */}
+                {/* 轨道：背景深色，圆角，溢出隐藏 */}
+                <div className="w-full h-2 rounded-full bg-black/40 overflow-hidden">
+                    
+                    {/* 填充：宽度由 style 决定，颜色由变量决定 */}
+                    <div 
+                        className={`${barColor} h-full transition-all duration-500`}
+                        style={{ width: `${clampedBattery}%` }} // 这里的百分比决定了进度
+                    />
+                    
                 </div>
             </div>
         </div>
