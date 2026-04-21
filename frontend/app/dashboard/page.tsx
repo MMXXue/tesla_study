@@ -1,6 +1,7 @@
 import { ItemsStatusCard } from "../components/ItemsStatusCard";
 import { StatsGrid } from "../components/StatsGrid";
 
+
 export default function DashBoard() {
     // 1. 模拟数据源（你可以根据需要在这里添加更多设备）
     const devices = [

@@ -13,6 +13,7 @@ export default function Home() {
     { href: '/learn', label: 'LEARN' },
     { href: '/dashboard', label: 'DASHBOARD' },
     { href: '/zustand', label: 'LIGHT' },
+    { href: '/query', label: 'Query' },
   ];
 
   return (
