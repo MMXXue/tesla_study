@@ -123,7 +123,19 @@
     - **“自动补帧” (Layout Animation)**：不再需要手动计算宽度和高度，只要样式发生变化，Framer Motion 会自动通过 FLIP 算法 补全中间的过渡，让组件像“液体”一样丝滑形变。
     -**“灵魂转移” (Shared Layout)**: 通过 layoutId 实现了跨组件的关联动画。理解了 activeTab === tab 的严格逻辑判断，让导航条的下划线能在不同选项间“跨时空飞行”，彻底告别了生硬的闪现切换。
     -**环境排雷与路径管理**: 实战解决了 Can't resolve 'tailwindcss' 的路径报错。深刻理解了在多层级项目（frontend 目录）中，保持 工作路径 (pwd) 与 依赖安装 (node_modules) 一致性的重要性，建立了一套 Senior 级别的 SOP 操作流程。
-
+- [x] **Day 36**：图标与视觉语义（Visual Semantics）
+    - **状态编码**：利用 Lucide React 为设备运行（Running）、故障（Fault）、待机（Standby）设计了一套直观的图标反馈系统，实现了“一眼识别风险”的监控体验。
+    - **语义化 UI**：通过图标色值与动效的结合，增强了界面的视觉层级，确保在信息高密度场景下依然能保持极高的认知效率。
+- [x] **Day 37**：Week 5 Project - 工厂资产管理面板（Asset Dashboard）
+    - **全响应式架构**：独立构建了全功能的设备看板，综合应用了 Grid 布局与断点适配技术，解决了复杂数据在多终端下的展示平衡。
+    - **原型落地**：从静态 Prototype 到功能组件的转化，验证了 Atomic Design 在大型复杂页面中的组织效能，完成了 Week 5 的综合实战考核。
+- [x] **Day 38**：Zustand 状态管理与持久化（Client State）
+    - **轻量级状态流**：放弃了冗余的 Redux，使用 Zustand 构建了全局 Store，实现了用户偏好（Theme/Language）与设备实时状态的高效共享。
+    - **数据不丢易机制 (Persist)**：掌握了 persist 中间件，将本地状态自动同步至 localStorage。深刻理解了“钱包模式”——即数据由本地完全掌控，实现 UI 的零延迟瞬时反馈。
+- [x] **Day 39**：TanStack Query 与服务端状态异步化（Server State）
+    - **数据同步哲学**：深刻理解了 SWR (Stale-While-Revalidate) 机制，通过 useQuery 替代传统的 useEffect 取数，实现了“先看旧缓存，后台默默更”的丝滑体验。
+    - **消除延迟 (Prefetching)**：实战了 onMouseEnter 触发的预取逻辑，在用户点开页面前提前加载数据，通过技术手段抹平了 AI 后端的推理延迟。
+    - **架构解耦**：通过 queryKey 建立了一套严谨的缓存身份证系统，将“银行档案（Server）”与“私人钱包（Local）”彻底分离，为 Day 40 的乐观更新打下了架构基础。
 
 
 ---
@@ -189,13 +201,13 @@
 | ~~**Day 34**~~ | ~~组件化开发~~ | ~~抽象出可复用的 AI Chat Bubble 和 Device Status Card 基础组件~~ | ~~Atomic Design~~ |
 | ~~**Day 35**~~ | ~~动态交互进阶~~ | ~~引入 Framer Motion 实现极致流畅的组件进入与状态切换动画~~ | ~~Framer Motion~~ |
 | ~~**Day 36**~~ | ~~图标与视觉语义~~ | ~~针对设备运行、故障、待机状态设计视觉反馈系统~~ | ~~Lucide React~~ |
-| **Day 37** | **Week 5 Project** | **构建“工厂资产管理面板”**：实现全响应式的静态设备可视化看板 | UI Prototype |
+| ~~**Day 37**~~ | ~~**Week 5 Project**~~ | ~~**构建“工厂资产管理面板”**：实现全响应式的静态设备可视化看板~~ | ~~UI Prototype~~ |
 
 #### Week 6: 状态管理与复杂数据流 (The Nervous System)
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 38** | Zustand 状态管理 | 使用轻量级 Zustand 管理全局用户偏好与设备实时状态 | Store Design |
-| **Day 39** | TanStack Query | 实现异步数据获取、自动缓存回补（SWR）与预取逻辑 | Server State |
+| ~~**Day 38**~~ | ~~Zustand 状态管理~~ | 使~~用轻量级 Zustand 管理全局用户偏好与设备实时状态~~ | ~~Store Design~~ |
+| ~~**Day 39**~~ | ~~TanStack Query~~ | ~~实现异步数据获取、自动缓存回补（SWR）与预取逻辑~~ | ~~Server State~~ |
 | **Day 40** | 高级表单处理 | 构建 AI Agent 配置表单，集成 Zod 进行严苛的前端 Schema 校验 | React Hook Form |
 | **Day 41** | Context API 妙用 | 在局部组件树中管理特定的 AI 诊断会话上下文（Session Context） | React Context |
 | **Day 42** | 前端持久化 | 实现页面刷新后，当前会话 ID 和 UI 布局偏好自动恢复 | LocalStorage/Persist |
