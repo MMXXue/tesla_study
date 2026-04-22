@@ -1,5 +1,5 @@
-import { ItemsStatusCard } from "../components/ItemsStatusCard";
-import { StatsGrid } from "../components/StatsGrid";
+import { ItemsStatusCard } from "./components/ItemsStatusCard";
+import { StatsGrid } from "./components/StatsGrid";
 
 
 export default function DashBoard() {
