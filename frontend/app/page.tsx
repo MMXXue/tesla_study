@@ -9,11 +9,12 @@ export default function Home() {
   // 导航配置：方便以后增加新页面
   const navLinks = [
     { href: '/', label: 'HOME' },
-    { href: '/about', label: 'ABOUT' },
-    { href: '/learn', label: 'LEARN' },
-    { href: '/dashboard', label: 'DASHBOARD' },
-    { href: '/zustand', label: 'LIGHT' },
+    { href: '/about', label: 'About' },
+    { href: '/learn', label: 'Learn' },
+    { href: '/dashboard', label: 'Dashboard' },
+    { href: '/zustand', label: 'Light' },
     { href: '/query', label: 'Query' },
+    { href: '/schema', label: 'Schema' },
   ];
 
   return (
