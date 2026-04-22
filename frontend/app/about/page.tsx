@@ -1,13 +1,13 @@
 
 // src/app/page.tsx
 
-import { MyButton } from "../components/MyButton";
-import StatusCard from '../components/StatusCard';
-import ChatBubble from '../components/ChatBubble';
-import { MotionCard } from '../components/MotionCard';
-import { ToggleCard } from '../components/ToggleCard';
-import LayoutCard from '../components/LayoutCard';
-import { DeviceCard } from '../components/DeviceCard';
+import { MyButton } from "./components/MyButton";
+import StatusCard from './components/StatusCard';
+import ChatBubble from './components/ChatBubble';
+import { MotionCard } from './components/MotionCard';
+import { ToggleCard } from './components/ToggleCard';
+import LayoutCard from './components/LayoutCard';
+import { DeviceCard } from './components/DeviceCard';
 
 export default function Day32() {
   const progressData = [

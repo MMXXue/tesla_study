@@ -10,7 +10,7 @@ export default function Providers({ children }) {
     return (
         // QueryClientProvider 提供“联网和缓存”的能力。
         <QueryClientProvider client={queryClient}> 
-        {children}
+            {children}
         </QueryClientProvider>
     );
 }
