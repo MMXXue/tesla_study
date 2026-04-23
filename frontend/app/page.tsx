@@ -15,6 +15,7 @@ export default function Home() {
     { href: '/zustand', label: 'Light' },
     { href: '/query', label: 'Query' },
     { href: '/schema', label: 'Schema' },
+    { href: '/context', label: 'Context' },
   ];
 
   return (
