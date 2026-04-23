@@ -136,7 +136,10 @@
     - **数据同步哲学**：深刻理解了 SWR (Stale-While-Revalidate) 机制，通过 useQuery 替代传统的 useEffect 取数，实现了“先看旧缓存，后台默默更”的丝滑体验。
     - **消除延迟 (Prefetching)**：实战了 onMouseEnter 触发的预取逻辑，在用户点开页面前提前加载数据，通过技术手段抹平了 AI 后端的推理延迟。
     - **架构解耦**：通过 queryKey 建立了一套严谨的缓存身份证系统，将“银行档案（Server）”与“私人钱包（Local）”彻底分离，为 Day 40 的乐观更新打下了架构基础。
-
+- [x] **Day 40**：高级表单处理与严苛校验（Schema-Driven UI）
+    - **单点真理架构 (Zod)**：引入了“前端 Pydantic”——Zod。通过定义严苛的 Schema，将数据校验逻辑从散乱的 if-else 转化为标准化的模型。实现了 z.infer 自动推断，确保了 TypeScript 类型与校验规则的“零误差同步”。
+    - **高性能表单管家 (React Hook Form)**：彻底告别了 React 传统的受控表单（Controlled Components）。利用 RHF 的非受控模式（Uncontrolled）显著降低了复杂配置界面的 Re-render 次数，保证了在配置成百上千个 Agent 参数时，界面依然保持 60 帧的流畅度。
+    - **逻辑接线员机制 (Resolver)**：通过 zodResolver 将校验引擎与 UI 引擎完美接轨。深刻理解了“第一道防线”原则——在数据离开浏览器发往 FastAPI 之前，在前端完成 100% 的格式对齐，极大地减轻了后端的解析负担与异常处理压力。
 
 ---
 
@@ -208,7 +211,7 @@
 | :--- | :--- | :--- | :--- |
 | ~~**Day 38**~~ | ~~Zustand 状态管理~~ | 使~~用轻量级 Zustand 管理全局用户偏好与设备实时状态~~ | ~~Store Design~~ |
 | ~~**Day 39**~~ | ~~TanStack Query~~ | ~~实现异步数据获取、自动缓存回补（SWR）与预取逻辑~~ | ~~Server State~~ |
-| **Day 40** | 高级表单处理 | 构建 AI Agent 配置表单，集成 Zod 进行严苛的前端 Schema 校验 | React Hook Form |
+| ~~**Day 40**~~ | ~~高级表单处理~~ | ~~构建 AI Agent 配置表单，集成 Zod 进行严苛的前端 Schema 校验~~ | ~~React Hook Form~~ |
 | **Day 41** | Context API 妙用 | 在局部组件树中管理特定的 AI 诊断会话上下文（Session Context） | React Context |
 | **Day 42** | 前端持久化 | 实现页面刷新后，当前会话 ID 和 UI 布局偏好自动恢复 | LocalStorage/Persist |
 | **Day 43** | 错误边界处理 | 实现 Error Boundary，确保单个组件崩溃不影响全局面板运行 | Fault Tolerance |
