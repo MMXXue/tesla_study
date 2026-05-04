@@ -1,7 +1,7 @@
 import ErrorBoundary from '../components/ErrorBoundary';
-import Bomb from './Bomb';
+import Bomb from '../components/Bomb';
 
-export default function DashboardPage() {
+export default function ErrorPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       {/* 顶部标题栏 */}

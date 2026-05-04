@@ -1,3 +1,5 @@
+'use client';
+
 function Bomb() {
     // 1. 定义一个“陷阱”变量
     const data = null;

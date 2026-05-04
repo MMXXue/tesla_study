@@ -1,3 +1,5 @@
+'use client';
+
 import React, { ReactNode, ErrorInfo } from 'react';
 
 // 1. 定义组件接收的参数类型 (Props)
