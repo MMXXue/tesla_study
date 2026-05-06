@@ -17,6 +17,7 @@ export default function Home() {
     { href: '/schema', label: 'Schema' },
     { href: '/context', label: 'Context' },
     { href: '/errorboundary', label: 'Error' },
+    { href: '/week6', label: 'WEEK 6' },
   ];
 
   return (
