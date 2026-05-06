@@ -230,7 +230,7 @@
 | ~~**Day 41**~~ | ~~Context API 妙用~~ | ~~在局部组件树中管理特定的 AI 诊断会话上下文（Session Context）~~ | ~~React Context~~ |
 | ~~**Day 42**~~ | ~~前端持久化~~ | ~~实现页面刷新后，当前会话 ID 和 UI 布局偏好自动恢复~~ | ~~LocalStorage/Persist~~ |
 | ~~**Day 43**~~ | ~~错误边界处理~~ | ~~实现 Error Boundary，确保单个组件崩溃不影响全局面板运行~~ | ~~Fault Tolerance~~ |
-| ~~**Day 44**~~ | ~~**Week 6 Project**~~ | **构建“多角色切换系统”**：实现 Agent、Admin、Maintainer 视图平滑切换 | State Sync |
+| ~~**Day 44**~~ | ~~**Week 6 Project**~~ | ~~**构建“多角色切换系统”**：实现 Agent、Admin、Maintainer 视图平滑切换~~ | ~~State Sync~~ |
 
 #### Week 7: 打字机流与实时视觉化 (The Pulse)
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
