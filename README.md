@@ -151,10 +151,19 @@
     - **安全退出与清理 (Cleanup Strategy)**：设计了明确的 clearStorage 逻辑，在用户手动切换设备或退出登录时，能够彻底清除过期的会话信息，确保监控系统在多用户切换场景下的数据隔离安全。
 - [x] **Day 43**：工业级故障容错与错误边界（Error Boundary）
     - **构建“故障隔离舱” (ErrorBoundary.tsx)**：深入理解了 React 类组件的底层机制。通过 static getDerivedStateFromError 实现 UI 状态的瞬时切换，并利用 componentDidCatch 充当“黑匣子”，精确记录组件崩溃时的堆栈信息（Component Stack）。
-    - **实现“局部自愈”逻辑 (handleReset & onReset)**：不仅学会了通过 this.setState 重置 UI 状态，更深刻理解了“治标与治本”的哲学——利用 onReset 回调在重置界面的同时清理父组件的异常数据源，防止陷入“重置即闪崩”的死循环。
+    - **实现“局部自愈”逻辑 (handleReset & onReset)**：不仅学会了通过 this.setState 重置 UI 状态，更深刻理解了“治标与治本”的哲学利用 onReset 回调在重置界面的同时清理父组件的异常数据源，防止陷入“重置即闪崩”的死循环。
     - **掌握“Next.js 渲染防火墙” ("use client")**：在 App Router 架构下，通过 "use client" 指令精准划定了服务端与客户端的边界。解决了类组件与服务端组件的冲突，理解了为何错误边界必须在浏览器端作为“信号哨兵”运行的底层逻辑。
     - **故障诊断实战 (Chaos Engineering)**：手动构建了必杀级“炸弹组件” (Bomb)，模拟了 AI 接口返回非法空数据导致 null.value 访问的极端场景。成功验证了系统在局部组件崩溃时，核心服务区（如电池健康、数据库连接）依然保持 60 帧运行的强大韧性。
-
+- [x] **Week 6 Project**: 多角色切换系统（Role-based View Switching）
+    - **构建"角色管理中枢" (RoleContext.tsx)**：设计了基于 React Context 的角色系统架构，支持 Agent（诊断助手）、Admin（管理员）、Maintainer（维保技师）三种角色无缝切换。通过 ContextAPI 实现全局角色状态管理，避免了深层 props drilling。
+    - **实现"视图平滑切换" (RoleSelector Component)**：基于 Framer Motion 的 layoutId 与 animated 容器，实现了不同角色视图间的流畅过渡动画。当用户切换角色时，UI 组件像"液体"般自然形变，保证了每个角色专属工作界面的沉浸感。
+    - **角色视图隔离与权限管理**：为三个角色分别设计了独立的数据展示维度——Agent 重点关注诊断链路与 AI 推理过程，Admin 看系统监控指标，Maintainer 聚焦设备维保日志与零件替换记录。通过条件渲染与权限检查确保信息隐私与操作权限的严格隔离。
+    - **状态同步与切换记忆**：利用 SessionContext 与 localStorage 实现角色切换后的状态持久化。用户刷新页面后，系统自动恢复最后使用的角色环境，提升了工作连贯性与体验一致性。
+- [x] **Day 45**：SSE 流式解析与 Chunked Markdown 实时渲染（Streaming Parser）
+    - **手写前端 SSE Parser (sse-parser.ts)**：从零实现了基于 ReadableStream 的 Chunked 数据流解析器。理解了 EventSource 与原生 Fetch API 流读取的区别，掌握了分块（Chunk）级别的 Markdown 片段聚合逻辑——每当后端发送一个 Markdown 片段时，Parser 会累积缓冲直到遇到"完整句子"或"代码块"才触发 UI 更新，避免了过频的组件重渲染。
+    - **后端 SSE 端点实现 (day45_sse_server.py)**：基于 FastAPI 的 StreamingResponse，实现了符合 Server-Sent Events 规范的后端流式接口。设计了"词汇级增量"的发送策略——当 AI（DeepSeek）流式生成诊断结果时，后端每 token 立即转发到前端，而不是等到全量完成，将端到端延迟控制在 100-200ms 级别。
+    - **Markdown 流式渲染与进度反馈**：在前端实现了"打字机效果"——流式 Markdown 片段到达时逐字显示，同时支持代码块、表格、LaTeX 数学公式等复杂元素的流式解析。引入了加载动画和进度指示器，让用户能实时感知 AI 诊断进度。
+    - **网络容错与重连机制**：处理了 SSE 连接中断、超时等极端场景。实现了自动重连逻辑，当网络抖动导致 SSE 断开时，系统会记录最后的"流位点"，重连后续接后续，确保用户不会丢失任何诊断信息。同时支持用户手动终止流式传输，提升了对话交互的可控性。
 
 ---
 
@@ -235,7 +244,7 @@
 #### Week 7: 打字机流与实时视觉化 (The Pulse)
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 45** | SSE 流式解析 | 手写前端 Parser，处理后端传来的 Chunked Markdown 片段流 | SSE / Streams |
+| ~~**Day 45**~~ | ~~SSE 流式解析~~ | ~~手写前端 Parser，处理后端传来的 Chunked Markdown 片段流~~ | ~~SSE / Streams~~ |
 | **Day 46** | 打字机效果优化 | 解决流式输出时的页面抖动（Jank）与自动触底滚动逻辑 | UX Optimization |
 | **Day 47** | Markdown 实时渲染 | 集成代码高亮、数学公式（LaTeX）与工业表格渲染 | React Markdown |
 | **Day 48** | ECharts 实时图表 | 接入动态折线图，展示传感器上报的实时频率（60FPS 渲染） | Canvas / SVG | 研究 Canvas 渲染优化 |
