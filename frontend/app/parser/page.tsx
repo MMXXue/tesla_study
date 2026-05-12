@@ -77,7 +77,7 @@ export default function ChatPage() {
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="mt-6 flex-1 p-6 border rounded-xl bg-white shadow-inner overflow-y-auto"
+        className="mt-6 flex-1 p-6 border rounded-xl bg-white shadow-inner overflow-y-auto contain-content"
       >
         <div className="prose prose-slate max-w-none text-gray-800 leading-relaxed whitespace-pre-wrap">
           {content}
