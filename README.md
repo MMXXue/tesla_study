@@ -169,6 +169,11 @@
     - **手动干预中断机制 (Manual Intervention Lock)**：设计了 isAutoScroll 状态锁，当用户主动向上翻阅历史记录时，系统自动识别用户意图并锁定滚动位置。通过 onScroll 事件实时监控滚动距离并设置阈值（100px），确保浏览历史时视角不被新文字流强行拉扯。
     - **一键回到底部悬浮组件 (Floating Scroll-to-Bottom)**：为提升长文对话操控感，实现了一个带有动画效果的悬浮通知按钮。当系统处于自动滚动锁定状态且有新消息生成时，按钮动态显示，支持用户一键重置状态并平滑回弹至最新内容点。
     - **呼吸感光标与状态反馈 (Pulsing Cursor & UX Feedback)**：在 MarkdownStreamParser 输出末端集成了基于 CSS 动画的呼吸感光标，通过 animate-pulse 实现视觉反馈，清晰界定 AI 思考与输出的状态边界。同时优化了渲染性能，减少高频更新导致的页面抖动（Jank）。
+- [x] **Day 47**：Markdown 实时渲染与富文本呈现（Live Markdown Rendering）
+    - **实时 Markdown 渲染**：整合 `react-markdown`、`remark-gfm` 与 `rehype-katex`，实现了流式 Markdown 输出的逐段渲染，支持复杂元素如代码块、表格、任务列表和数学公式。
+    - **语义排版与代码高亮**：使用 `@tailwindcss/typography` 与 `rehype-highlight` 构建工业级阅读样式，保证 Markdown 内容在长文本流出时仍然保持视觉一致性和可读性。
+    - **交互式结构增强**：加入 GitHub 风格表格、任务项、自动链接与嵌套列表的支持，让诊断结果不仅可读，还能作为结构化知识直接展示。
+    - **流式渲染容错与性能优化**：基于分块解析与最小更新策略，避免单次大规模渲染导致的抖动。并增加了空数据、解析异常与回退展示逻辑，确保输出过程中界面稳定。
 
 ---
 
@@ -251,7 +256,7 @@
 | :--- | :--- | :--- | :--- |
 | ~~**Day 45**~~ | ~~SSE 流式解析~~ | ~~手写前端 Parser，处理后端传来的 Chunked Markdown 片段流~~ | ~~SSE / Streams~~ |
 | ~~**Day 46**~~ | ~~打字机效果优化~~ | ~~解决流式输出时的页面抖动（Jank）与自动触底滚动逻辑~~ | ~~UX Optimization~~ |
-| ~~**Day 47**~~ | ~~Markdown 实时渲染~~ | ~~集成代码高亮、数学公式（LaTeX）与工业表格渲染~~ | ~~React Markdown~~ |
+|| ~~**Day 47**~~ | ~~Markdown 实时渲染~~ | ~~集成代码高亮、数学公式（LaTeX）与工业表格渲染~~ | ~~React Markdown~~ |
 | **Day 48** | ECharts 实时图表 | 接入动态折线图，展示传感器上报的实时频率（60FPS 渲染） | Canvas / SVG | 研究 Canvas 渲染优化 |
 | **Day 49** | WebSocket 联调 | 实现前端与后端的全双工心跳检测，确保连接断开自动重连 | WS Protocol |
 | **Day 50** | 多模态资源加载 | 处理 AI 返回的图片/视频流，实现渐进式加载（Progressive Load） | Media Assets |
