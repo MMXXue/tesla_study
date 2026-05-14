@@ -19,6 +19,7 @@ export default function Home() {
     { href: '/errorboundary', label: 'Error' },
     { href: '/week6', label: 'WEEK 6' },
     { href: '/parser', label: 'Parser' },
+    { href: '/markdown', label: 'Markdown' },
   ];
 
   return (
