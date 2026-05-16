@@ -20,6 +20,7 @@ export default function Home() {
     { href: '/week6', label: 'WEEK 6' },
     { href: '/parser', label: 'Parser' },
     { href: '/markdown', label: 'Markdown' },
+    { href: '/echarts', label: 'Echarts' },
   ];
 
   return (
