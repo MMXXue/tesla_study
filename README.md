@@ -258,7 +258,7 @@
 | ~~**Day 46**~~ | ~~打字机效果优化~~ | ~~解决流式输出时的页面抖动（Jank）与自动触底滚动逻辑~~ | ~~UX Optimization~~ |
 | ~~**Day 47**~~ | ~~Markdown 实时渲染~~ | ~~集成代码高亮、数学公式（LaTeX）与工业表格渲染~~ | ~~React Markdown~~ |
 | ~~**Day 48**~~ | ~~ECharts 实时图表~~ | ~~接入动态折线图，展示传感器上报的实时频率（60FPS 渲染）~~ | ~~Canvas / SVG~~ | ~~研究 Canvas 渲染优化~~ |
-| **Day 49** | WebSocket 联调 | 实现前端与后端的全双工心跳检测，确保连接断开自动重连 | WS Protocol |
+| ~~**Day 49**~~ | WebSocket 联调 | 实现前端与后端的全双工心跳检测，确保连接断开自动重连 | WS Protocol |
 | **Day 50** | 多模态资源加载 | 处理 AI 返回的图片/视频流，实现渐进式加载（Progressive Load） | Media Assets |
 | **Day 51** | **Week 7 Project** | **构建“实时 AI 诊断终端”**：支持流式对话与实时动态传感器图谱 | Full-duplex UI |
 
