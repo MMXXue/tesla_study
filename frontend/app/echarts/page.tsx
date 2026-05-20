@@ -1,114 +1,62 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import * as echarts from 'echarts';
+import React, { useEffect, useState } from 'react';
 
 export default function Page() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState('未连接');
 
   useEffect(function () {
-    if (!containerRef.current) return;
-
-    // 初始化图表，指定高性能的 canvas 渲染器
-    const chartInstance = echarts.init(containerRef.current, 'dark', {
-      renderer: 'canvas',
-    });
-
-    // 1. 初始化内存队列，先用 200 个空白数据把图表撑开
-    const MAX_DATA_COUNT = 200;
-    let dataQueue: number[] = Array(MAX_DATA_COUNT).fill(0);
-    let timeQueue: string[] = Array(MAX_DATA_COUNT).fill('');
-
-    // 2. 写入融入了 Canvas 优化指令的 Option
-    const option = {
-      title: { 
-        text: '传感器高频实时频率 (60FPS)',
-        textStyle: { color: '#f4f4f5' }
-      },
-      // 🚨 优化策略一：死死关掉全局动画，释放 CPU 算力
-      animation: false,
-      animationDurationUpdate: 0,
+    // 🛠️ 核心改变：我们把 WebSocket 的初始化打包成一个可以反复调用的“功能包”
+    function connectWS() {
+      setStatus('🟡 正在连接中...');
       
-      grid: { top: 60, bottom: 40, left: 50, right: 20 },
-      xAxis: { 
-        type: 'category', 
-        boundaryGap: false, // 让折线紧贴两边，没有留白，视觉更平滑
-        data: timeQueue,
-        axisLine: { lineStyle: { color: '#3f3f46' } },
-        splitLine: { show: false } // 实时流图表不需要横向网格，减少绘制
-      },
-      yAxis: { 
-        type: 'value',
-        scale: true, // 极其重要！自动缩放 Y 轴刻度，否则折线波幅太小看不清
-        splitLine: { lineStyle: { color: '#27272a' } }
-      },
-      series: [{ 
-        type: 'line', 
-        data: dataQueue,
-        // 🚨 优化策略二：关闭折线上的小圆点，只画线，不画点
-        showSymbol: false,
-        lineStyle: { color: '#3b82f6', width: 2 },
-      }]
-    };
+      // 【第一步：建立通道】
+      const ws = new WebSocket('wss://echo.websocket.org');
 
-    chartInstance.setOption(option);
+      // 【第二步：监听开门】
+      ws.onopen = function () {
+        setStatus('🟢 已连接到 WS 服务器');
+        console.log('--- 管道建立成功 ---');
+      };
 
-    // 3. 开启 60FPS 高频数据模拟器
-    let count = 0;
-    let animationFrameId: number;
+      // 【第三步：监听消息】
+      ws.onmessage = function (event) {
+        console.log('收到回音：', event.data);
+      };
 
-    function simulateSensorStream() {
-      count++;
-      
-      // 生成当前时间戳（精确到毫秒）
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false }) + '.' + Math.floor(performance.now() % 1000);
-      
-      // 模拟一个波动的传感器频率数据（围绕 50Hz 波动）
-      const mockValue = 50 + Math.sin(count * 0.1) * 8 + (Math.random() - 0.5) * 4;
+      // 【第四步：监听报错】只负责打日志
+      ws.onerror = function (error) {
+        console.error('WebSocket 发生错误');
+      };
 
-      // 🚨 优化策略三：先进先出队列控制
-      timeQueue.push(timeStr);
-      dataQueue.push(Number(mockValue.toFixed(2)));
+      // 【第五步：监听关闭】🚨 重连的秘密基地就在这里！
+      ws.onclose = function () {
+        setStatus('🔴 连接已断开，3秒后尝试自动重连...');
+        console.log('--- 管道断开了！触发防御机制 ---');
 
-      if (timeQueue.length > MAX_DATA_COUNT) {
-        timeQueue.shift();
-        dataQueue.shift();
-      }
-
-      // 听令行事：把最新队列的数据喂给图表，Canvas 会瞬间高速重绘
-      chartInstance.setOption({
-        xAxis: { data: timeQueue },
-        series: [{ data: dataQueue }]
-      });
-
-      // 💡 告诉浏览器：紧紧对齐显示器的刷新率（大约每 16.7ms 执行下一次循环）
-      animationFrameId = requestAnimationFrame(simulateSensorStream);
+        // 🛠️ 关键动作：定一个 3 秒后的闹钟，闹钟一响，重新执行 connectWS()
+        setTimeout(function () {
+          console.log('🔄 3秒时间到，正在发起重新连接...');
+          connectWS(); // 自己调用自己，重新走一遍第一步
+        }, 3000); 
+      };
     }
 
-    // 启动高频循环
-    animationFrameId = requestAnimationFrame(simulateSensorStream);
+    // 🚀 页面刚打开时，我们手动推一把，启动第一次连接
+    connectWS();
 
-    // 自动适配窗口大小
-    const handleResize = () => chartInstance.resize();
-    window.addEventListener('resize', handleResize);
-
-    // 清理小机关
-    return function cleanup() {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
-      chartInstance.dispose();
-    };
-  }, []);
+  }, []); // 空数组，确保整个机制只在页面初次加载时拉起一次
 
   return (
     <div className="w-full min-h-screen p-6 bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center">
-      <div className="w-full max-w-5xl p-6 bg-zinc-900 rounded-xl border border-zinc-800 shadow-2xl">
-        <h3 className="text-zinc-100 font-medium mb-4 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-          Day 48 核心实战：Canvas 性能优化看板
-        </h3>
-        <div ref={containerRef} className="w-full h-[450px]" />
+      <div className="w-full max-w-md p-6 bg-zinc-900 rounded-xl border border-zinc-800 shadow-2xl text-center">
+        <h3 className="text-zinc-100 font-medium mb-4 text-lg">WebSocket 防御系统：第一层（重连）</h3>
+        <div className="text-xl font-bold px-4 py-3 bg-zinc-950 rounded-lg border border-zinc-850 inline-block text-amber-400">
+          {status}
+        </div>
+        <p className="text-xs text-zinc-500 mt-4">
+          提示：可以通过断开 Wi-Fi 或等待公共服务器波动来测试重连日志。
+        </p>
       </div>
     </div>
   );
