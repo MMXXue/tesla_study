@@ -35,7 +35,7 @@ export default function Page() {
           {/* 【第二道防线：现代视频消费引擎】 */}
           <video 
             // 🚀 核心看点：src 直接指向我们刚刚手写的后端切香肠接口！
-            src="/api/video" 
+            src="/blob/video" 
             autoPlay 
             muted 
             loop 
@@ -54,7 +54,7 @@ export default function Page() {
         {/* 底部调试文字 */}
         <div className="bg-zinc-950 p-2 rounded border border-zinc-850 text-center">
           <p className="text-[10px] text-zinc-500 font-mono">
-            Source Endpoint: <span className="text-zinc-400">/api/video (HTTP Progressive Chunked Stream)</span>
+            Source Endpoint: <span className="text-zinc-400">/blob/video (HTTP Progressive Chunked Stream)</span>
           </p>
         </div>
 
