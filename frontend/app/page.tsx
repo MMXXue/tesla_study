@@ -21,6 +21,7 @@ export default function Home() {
     { href: '/parser', label: 'Parser' },
     { href: '/markdown', label: 'Markdown' },
     { href: '/echarts', label: 'Echarts' },
+    { href: '/blob', label: 'Blob' },
   ];
 
   return (
