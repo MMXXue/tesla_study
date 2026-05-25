@@ -1,0 +1,53 @@
+# ====================================================================
+# TS-79 诊断终端基础设施配置 - 生产级 Redis 部署
+# 适用阶段：Month 1 (DevOps) & Month 2 Week 7 (分布式限流与状态管理)
+# ====================================================================
+
+# 1. 指定 Docker Compose 语法版本（3.8 是目前生产环境中最稳定、兼容性最好的版本）
+version: '3.8'
+
+# 2. 定义服务集合（即本期项目需要拉起的所有独立容器基础设施）
+services:
+
+  # ------------------------------------------------------------------
+  # [服务代号]: redis-limiter
+  # 职责: 负责全双工长连接的全局分布式限流 (Token Bucket / Fixed Window)
+  # 作用域: 在 Docker 内部虚拟网络中作为域名使用，供其他容器化微服务调用
+  # ------------------------------------------------------------------
+  redis-limiter:
+    
+    # 使用官方 Redis 镜像，指定 7.2 稳定版。
+    # -alpine 后缀代表基于 Alpine Linux 构建，镜像体积仅十几MB，启动极快，且去除了冗余工具，安全性极高（Tesla 标准）
+    image: redis:7.2-alpine
+
+    # [全局身份证]: ts79-redis-limiter
+    # 职责: 映射到物理机操作系统的全局容器实体名。
+    # 作用: 方便工程师在物理机终端直接进行运维（如：docker logs / docker exec）
+    container_name: ts79-redis-limiter
+
+    # 端口映射 [宿主机物理端口 : 容器内部监听端口]
+    # 将物理机的 6379 端口与容器内的 6379 端口绑定，使得宿主机运行的 FastAPI 能够通过 localhost:6379 穿透访问 Redis
+    ports:
+      - "6379:6379"
+
+    # 数据持久化保护配置 (Volume Mount)
+    # 将容器内真正存放 Redis 数据的 /data 目录，挂载到外部物理机名为 redis_data 的持久化区块中
+    # 核心价值：即使容器被销毁重建（docker compose down），限流历史和持久化数据也不会丢失
+    volumes:
+      - redis_data:/data
+
+    # 覆盖容器默认启动命令，强行开启 AOF (Append Only File) 高级持久化机制
+    # --appendonly yes 确保每一次 Redis 的写操作（如限流计数器递增）都会被实时记录进硬盘，提供企业级数据容灾保障
+    command: redis-server --appendonly yes
+
+    # 资源限制（防止高频请求下内存或 CPU 异常暴涨影响物理机）
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'     # 限制最多使用单核 50% 的 CPU
+          memory: 256M     # 限制最多使用 256MB 内存
+
+# 3. 声明全局持久化数据卷（告诉 Docker 引擎在物理机硬盘中开辟独立空间）
+volumes:
+  redis_data:
+    name: ts79_production_redis_volume # 为数据卷指定一个规范的生产环境名称
