@@ -71,16 +71,19 @@ async def telemetry_generator(websocket: WebSocket):
     """
     try:
         while True:
-            payload = {
-                "type": "telemetry",
+            payload = {  # 数据载荷
+                "type": "telemetry",  # 告诉前端：这是“遥测数据”，不是“AI说的话”
                 "data": {
+                    # 模拟 CPU 在 60% 左右上下波动（最低不低于10%，最高不超过95%）
                     "cpu": max(10, min(95, 60 + random.randint(-8, 8))),
+                    # 模拟内存占用在 70.0% 到 76.5% 之间随机摇摆
                     "memory": round(random.uniform(70.0, 76.5), 1),
+                    # 模拟网络延迟在 10ms 到 30ms 之间跳动
                     "latency": random.randint(10, 30)
                 }
             }
-            await websocket.send_text(json.dumps(payload))
-            await asyncio.sleep(0.1)  # 严格非阻塞睡眠 100ms
+            await websocket.send_text(json.dumps(payload)) # 🌟 啪，发一颗炮弹给前端
+            await asyncio.sleep(0.1)  # 🌟 严格休息 100 毫秒（0.1 秒） 10HZ的采样率
     except asyncio.CancelledError:
         # 优雅停机 (温故 Day 24 Profiling & Day 30)
         print("[✓ BACKEND] 遥测数据流协程已被安全 cancel，未发生内存泄漏。")
@@ -113,6 +116,11 @@ async def ai_diagnostic_engine(websocket: WebSocket, prompt: str):
 # 📡 WebSockets 路由入口 (温故 Month 1 - Day 19 WebSocket 状态机)
 # ====================================================================
 
+# 流 A（自动连发）：由 telemetry_generator 掌管，像心跳一样，每秒钟雷打不动地往管道里砸 10 次硬件遥测指标（CPU、内存）。
+
+# 流 B（突发事件）：由 ai_diagnostic_engine 掌管，平时闭嘴，一旦被触发，就以 10ms 一个字的速度在同一条管道里疯狂倾泄 AI 诊断报告。
+
+
 @app.websocket("/ws/diagnostics")
 async def diagnostics_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -132,7 +140,7 @@ async def diagnostics_endpoint(websocket: WebSocket):
             # 持续监听前端随时可能上报的异步控制原语
             raw_client_data = await websocket.receive_text()
             client_data = json.loads(raw_client_data)
-            user_prompt = client_data.get("prompt", "")
+            user_prompt = client_data.get("prompt", "")    #  通过 json.loads 解包，提取出用户的真实意图 user_prompt
 
             # 节点 A：调用分布式 Redis 限流器
             if await is_rate_limited(user_id=mock_vin_code, limit=4, window=10):
