@@ -23,6 +23,7 @@ export default function Home() {
     { href: '/echarts', label: 'Echarts' },
     { href: '/blob', label: 'Blob' },
     { href: '/week7', label: 'WEEK 7' },
+    { href: '/visualList', label: 'VisualList' },
   ];
 
   return (
