@@ -282,7 +282,7 @@
 #### Week 8: 前端工程化与性能极致优化 (The Precision)
 | 天数 | 主题 | 核心任务 (Tesla Standard) | 技术关键词 |
 | :--- | :--- | :--- | :--- |
-| **Day 52** | Virtual List 虚拟列表 | 处理上万条历史日志时，通过虚拟滚动技术保持页面不卡顿 | react-window |
+| ~~**Day 52**~~ | ~~Virtual List 虚拟列表~~ | ~~处理上万条历史日志时，通过虚拟滚动技术保持页面不卡顿~~ | ~~react-window~~ |
 | **Day 53** | 图像/资源优化 | 深度使用 Next.js Image 处理设备快照的极致压缩与懒加载 | WebP / Avif |
 | **Day 54** | Bundle Analysis | 使用分析工具剔除冗余依赖，极致缩减首屏加载时间 (FCP) | Turbopack |
 | **Day 55** | SEO 与 Metadata | 针对管理平台进行 Meta 信息优化，提升内网搜索索引效率 | Metadata API |
