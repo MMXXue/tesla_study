@@ -25,6 +25,7 @@ export default function Home() {
     { href: '/week7', label: 'WEEK 7' },
     { href: '/visualList', label: 'VisualList' },
     { href: '/snapshot', label: 'Image' },
+    { href: '/metadata', label: 'MetadataTest' },
   ];
 
   return (
