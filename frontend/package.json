@@ -2,13 +2,13 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-"scripts": {
-  "dev": "next dev --experimental-https",
-  "build": "next build",
-  "start": "next start",
-  "lint": "next lint",
-  "analyze": "next build --experimental-analyze"
-},
+  "scripts": {
+    "dev": "next dev --experimental-https",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "analyze": "next build --experimental-analyze"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@next/bundle-analyzer": "^16.2.7",
@@ -30,6 +30,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
