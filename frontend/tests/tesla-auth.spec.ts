@@ -33,8 +33,3 @@ test("Tesla Edge Guard - 验证注入正确 Token 后是否能丝滑通关", asy
   // 3. 核心断言：由于带着防伪工牌，网址应该稳稳停留在 /errorboundary，而不会被踢走！
   await expect(page).toHaveURL("https://localhost:3000/errorboundary");
 });
-
-
-await page.goto("saf ");
-await expect(page).toHaveURL(adad);
-page.getByText
