@@ -26,6 +26,7 @@ export default function Home() {
     { href: '/visualList', label: 'VisualList' },
     { href: '/snapshot', label: 'Image' },
     { href: '/metadata', label: 'MetadataTest' },
+    { href: '/telemetry', label: 'Telemetry' },
   ];
 
   return (
