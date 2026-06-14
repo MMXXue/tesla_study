@@ -1,0 +1,54 @@
+name: Telemetry Dashboard CI/CD
+
+on:
+  push:
+    branches: [ main, staging ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    name: 🚨 自动化质检与编译构建
+    runs-on: ubuntu-latest
+
+    # 🌟 关键改动：让全线命令默认在 frontend 文件夹下执行！
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: 📥 1. 物理克隆仓库
+        uses: actions/checkout@v4 # 注意：克隆仓库是克隆整个 TESLA_STUDY，所以这步不需要改工作目录
+
+      - name: 🟢 2. 装配 Node.js 运行时环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          # 告诉缓存大妈，package-lock.json 在 frontend 里面
+          cache-dependency-path: ./frontend/package-lock.json 
+
+      - name: 🔒 3. 生产级依赖强锁安装
+        run: npm ci
+
+      - name: 🦺 4. 运行 Playwright E2E 自动化蹂躏测试
+        run: |
+          npx playwright install --with-deps
+          npm run test:e2e
+
+      - name: 🏗️ 5. 开启 Next.js 生产级编译构建
+        run: npm run build
+
+  deploy:
+    name: 🌐 跨环境多维度定向空投部署
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 🚀 🚀 模拟空投到特斯拉生产环境服务器
+        run: |
+          echo "✅ 成功连通前端工程目录 ./frontend !"
+          echo "🔏 正在从 GitHub 绝密金库 Secrets 中提取 SSH 密钥和服务器 Token..."
+          echo "📦 正在将编译好的 Next.js 生产级镜像毫秒级空投至 Vercel / AWS 线上集群..."
+          echo "✅ 部署成功！全球特斯拉遥测大屏已全自动无感升级至最新版本！"
